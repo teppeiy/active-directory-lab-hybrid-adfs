@@ -52,6 +52,11 @@
       "type": "string",
       "defaultValue": "Standard_D1_v2",
       "metadata": { "description": "This is the allowed list of VM sizes" }
+    },
+    "imageSKU": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "metadata": { "description": "imageSKU" }
     }
   },
   "variables": {
@@ -60,7 +65,6 @@
     "adSubnetID": "[concat(variables('vnetID'),'/subnets/', parameters('adSubnetName'))]",
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
-    "imageSKU": "2012-R2-Datacenter",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "adPubIPName": "[concat('adPubIP', parameters('deploymentNumber'))]",
     "adNicName": "[concat('ad-',parameters('NetworkInterfaceName'), parameters('deploymentNumber'))]",
@@ -131,7 +135,7 @@
           "imageReference": {
             "publisher": "[variables('imagePublisher')]",
             "offer": "[variables('imageOffer')]",
-            "sku": "[variables('imageSKU')]",
+            "sku": "[parameters('imageSKU')]",
             "version": "latest"
           },
           "osDisk": {
@@ -178,8 +182,8 @@
   ],
   "outputs": {
     "ADVMFQDN": {
-        "type": "string",
-        "value": "[reference(parameters('adVMName')).DnsSettings.Fqdn]"
+      "type": "string",
+      "value": "[reference(parameters('adVMName')).DnsSettings.Fqdn]"
     }
   }
 }

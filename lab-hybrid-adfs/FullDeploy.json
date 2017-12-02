@@ -4,7 +4,7 @@
   "parameters": {
     "assetLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/master/AAD_ADFS_Lab/",
+      "defaultValue": "https://raw.githubusercontent.com/teppeiy/active-directory-lab-hybrid-adfs/master/lab-hybrid-adfs/",
       "metadata": { "description": "This is the location in which all the linked templates are stored." }
     },
     "adminUsername": {
@@ -30,12 +30,28 @@
     "usersArray": {
       "type": "array",
       "defaultValue": [
-        { "FName": "Bob", "LName": "Jones", "SAM": "bjones" },
-        { "FName": "Bill", "LName": "Smith", "SAM": "bsmith" },
-        { "FName": "Mary", "LName": "Phillips", "SAM": "mphillips" },
-        { "FName": "Sue", "LName": "Jackson", "SAM": "sjackson" }
+        {
+          "FName": "Bob",
+          "LName": "Jones",
+          "SAM": "bjones"
+        },
+        {
+          "FName": "Bill",
+          "LName": "Smith",
+          "SAM": "bsmith"
+        },
+        {
+          "FName": "Mary",
+          "LName": "Phillips",
+          "SAM": "mphillips"
+        },
+        {
+          "FName": "Sue",
+          "LName": "Jackson",
+          "SAM": "sjackson"
+        }
       ],
-      "metadata": {"description": "JSON object array of users that will be loaded into AD once the domain is established."}
+      "metadata": { "description": "JSON object array of users that will be loaded into AD once the domain is established." }
     },
     "defaultUserPassword": {
       "type": "securestring",
@@ -49,7 +65,7 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_A2_v2",
+      "defaultValue": "Standard_D2_v2",
       "allowedValues": [ "Standard_A1_v2", "Standard_A2_v2", "Standard_A4_v2", "Standard_A2M_v2", "Standard_A4M_v2", "Standard_A4_v2", "Standard_D2_v2", "Standard_D3_v2", "Standard_D11_v2", "Standard_D12_v2" ],
       "metadata": { "description": "Select a VM SKU (please ensure the SKU is available in your selected region)." }
     },
@@ -93,6 +109,18 @@
     "clientImageBaseResource": {
       "type": "string",
       "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images, like /subscriptions/&lt;YourAzureSubscriptionID&gt;/resourceGroups/&lt;YourImageRG&gt;/providers/Microsoft.Compute/images/" }
+    },
+    "adImageSKU": {
+      "type": "string",
+      "metadata": { "description": "adImageSKU" },
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
+    },
+    "adfsImageSKU": {
+      "type": "string",
+      "metadata": { "description": "adfsImageSKU" },
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
     }
   },
   "variables": {
@@ -120,7 +148,6 @@
     "cliSubnetName": "[concat('clientSubnet', parameters('deploymentNumber'))]",
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
-    "imageSKU": "2012-R2-Datacenter",
     "publicIPAddressDNSName": "[tolower(concat(variables('companyNamePrefix'),parameters('deploymentNumber'),'-adfs'))]",
     "rdpIPAddressDNSName": "[tolower(concat(variables('companyNamePrefix'),'-adfs-rdp'))]",
     "storageAccountType": "Standard_LRS",
@@ -223,6 +250,7 @@
           "networkInterfaceName": { "value": "[variables('NetworkInterfaceName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
+          "imageSKU": { "value": "[parameters('adImageSKU')]" },
           "deploymentNumber": { "value": "[parameters('deploymentNumber')]" }
         }
       }
@@ -337,6 +365,7 @@
           "publicIPAddressDNSName": { "value": "[variables('publicIPAddressDNSName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
+          "imageSKU": { "value": "[parameters('adfsImageSKU')]" },
           "wapVMName": { "value": "[variables('wapVMName')]" },
           "deploymentNumber": { "value": "[parameters('deploymentNumber')]" },
           "adfsFarmCount": { "value": "[parameters('AdfsFarmCount')]" }
