@@ -8,9 +8,6 @@
       "adDomainName": {
         "value": "teppeiy.local"
       },
-      "adfsImageSKU": {
-        "value": "2008-R2-SP1"
-      },
       "adminPassword": {
         "reference": {
           "keyVault": {

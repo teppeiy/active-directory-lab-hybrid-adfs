@@ -104,11 +104,12 @@
       "metadata": {
         "description": "ClientsToDeploy, array, possible values: 7, 8, 10-1511, 10-1607, 10-1703. Examples: Single Win7 VM = [\"7\"]. Two Win7, one Win10 Creators = [\"7\", \"7\", \"10-1703\"]."
       },
-      "defaultValue": [ "10-1607" ]
+      "defaultValue": [ "10" ]
     },
     "clientImageBaseResource": {
       "type": "string",
-      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images, like /subscriptions/&lt;YourAzureSubscriptionID&gt;/resourceGroups/&lt;YourImageRG&gt;/providers/Microsoft.Compute/images/" }
+      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images, like /subscriptions/&lt;YourAzureSubscriptionID&gt;/resourceGroups/&lt;YourImageRG&gt;/providers/Microsoft.Compute/images/" },
+      "defaultValue": "/subscriptions/9b559a7e-7309-450c-b043-1bbf99fa8ebe/resourceGroups/Utilities/providers/Microsoft.Compute/images/"
     },
     "adImageSKU": {
       "type": "string",

@@ -1,0 +1,2 @@
+﻿New-AzureRmResourceGroup -Name "lab4" -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName "lab4" -deploymentNumber 5 -TemplateFile ".\FullDeploy.json" -TemplateParameterFile ".\azuredeploy.parameters.json" -Verbose
