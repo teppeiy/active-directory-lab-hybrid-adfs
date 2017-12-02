@@ -2,5 +2,30 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+      "adminUsername": {
+        "value": "teppeiy"
+      },
+      "adDomainName": {
+        "value": "teppeiy.local"
+      },
+      "adfsImageSKU": {
+        "value": "2008-R2-SP1"
+      },
+      "adminPassword": {
+        "reference": {
+          "keyVault": {
+            "id": "/subscriptions/9b559a7e-7309-450c-b043-1bbf99fa8ebe/resourceGroups/Utilities/providers/Microsoft.KeyVault/vaults/tyKeyVault"
+          },
+          "secretName": "LabAdmin"
+        }
+      },
+      "defaultUserPassword": {
+        "reference": {
+          "keyVault": {
+            "id": "/subscriptions/9b559a7e-7309-450c-b043-1bbf99fa8ebe/resourceGroups/Utilities/providers/Microsoft.KeyVault/vaults/tyKeyVault"
+          },
+          "secretName": "LabAdmin"
+        }
+      }
     }
 }
