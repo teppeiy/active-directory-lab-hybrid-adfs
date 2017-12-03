@@ -108,3 +108,16 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
     New-Item -ItemType file "$($completeFile)$step"
 }
 
+$step=5
+if (!(Test-Path -Path "$($completeFile)$step")) {
+    # Install Tools
+    
+	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+	Install-Module -Name MSOnline -Force
+	Install-Module -Name AzureAD -Force
+	Install-Module -Name AzureADPreview -AllowClobber -Force
+
+    #record that we got this far
+    New-Item -ItemType file "$($completeFile)$step"
+
+}

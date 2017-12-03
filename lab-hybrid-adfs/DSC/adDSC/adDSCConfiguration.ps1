@@ -291,6 +291,7 @@ configuration DomainController
             DependsOn  = '[Script]CreateOU'
         }
 		
+		<#
         #using service credentials for ADFS for now
 		Script AddTools
         {
@@ -319,6 +320,7 @@ configuration DomainController
 
             DependsOn = '[xADCSWebEnrollment]CertSrv'
         }
+		#>
 		
 
         <#
