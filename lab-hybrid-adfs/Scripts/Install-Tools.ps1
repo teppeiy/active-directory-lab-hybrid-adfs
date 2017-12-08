@@ -36,12 +36,18 @@ Function DownloadAndInstallExe
         [string]
         $option
     )
-    $LocalTempDir = $env:TEMP
-    $installer = (new-guid).toString() + ".exe"
-    (new-object System.Net.WebClient).DownloadFile($uri, "$LocalTempDir\$installer"); & "$LocalTempDir\$installer" $option; $Process2Monitor =  "installer"; Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$installer" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
-}
+    #$LocalTempDir = $env:TEMPo
+    $LocalTempDir = "C:\Downloads"
+    md -Force $LocalTempDir
 
-Set-ExecutionPolicy Unrestricted -force
+    $installer = (new-guid).toString() + ".exe"
+    (new-object System.Net.WebClient).DownloadFile($uri, "$LocalTempDir\$installer")
+
+    Write-Output "Executing: $LocalTempDir\$installer $option"
+    & "$LocalTempDir\$installer" $option
+    $Process2Monitor =  $installer
+    Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$installer" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
+}
 
 $programs = Get-content -Path $ProgramsToInstall | ConvertFrom-Json
 Write-Output $programs
