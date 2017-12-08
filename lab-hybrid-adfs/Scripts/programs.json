@@ -8,7 +8,7 @@
         {
             "name": "Fiddler",
             "uri": "https://www.telerik.com/docs/default-source/fiddler/fiddlersetup.exe?sfvrsn=4",
-            "option": "/D=C:\Program Files\Fiddler"
+            "option": "/D=C:\\Program Files\\Fiddler"
         },
         {
             "name": "NetMon",
