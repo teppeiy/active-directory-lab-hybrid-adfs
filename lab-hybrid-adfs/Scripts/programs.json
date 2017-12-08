@@ -1,49 +1,49 @@
 {
-    "programs": [
-        {
-            "name": "Chrome",
-            "uri": "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF36991A3-422F-B77B-35B5-617BE3F44869%7D%26lang%3Den%26browser%3D5%26usagestats%3D1%26appname%3DGoogle%2520Chrome%26needsadmin%3Dtrue%26ap%3Dx64-stable%26brand%3DGCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi",
-            "extension": "msi"
-        },
-        {
-            "name": "Fiddler",
-            "uri": "https://www.telerik.com/docs/default-source/fiddler/fiddlersetup.exe?sfvrsn=4",
-            "option": "/S /install"
-        },
-        {
-            "name": "NetMon",
-            "uri": "https://download.microsoft.com/download/7/1/0/7105C7FF-768E-4472-AFD5-F29108D1E383/NM34_x64.exe",
-            "option": "/Q"
-        },
-        {
-            "name": "Firefox",
-            "uri": "https://download.mozilla.org/?product=firefox-56.0.1-SSL&os=win64&lang=ja",
-            "option": "/silent /install"
-        },
-        {
-            "name": "Opera",
-            "uri": "http://net.geo.opera.com/opera/stable/windows?http_referrer=https://www.google.co.jp/&utm_source=google_via_opera_com&utm_medium=ose&utm_campaign=google_ose_via_opera_com&utm_fsce=true&utm_defbr=false",
-            "option": "/silent /install"
-        },
-        {
-            "name": "PuTTY",
-            "uri": "https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.70-installer.msi",
-            "extension": "msi"
-        },
-        {
-            "name": "Notepad++",
-            "uri": "https://notepad-plus-plus.org/repository/7.x/7.5.1/npp.7.5.1.Installer.x64.exe",
-            "option": "/S"
-        },
-        {
-            "name": "Git",
-            "uri": "https://github.com/git-for-windows/git/releases/download/v2.14.2.windows.3/Git-2.14.2.3-64-bit.exe",
-            "option": "/silent /install"
-        },
-        {
-            "name": "Tor",
-            "uri": "https://www.torproject.org/dist/torbrowser/7.0.6/torbrowser-install-7.0.6_en-US.exe",
-            "option": "/silent /install"
-        }
-    ]
+  "programs": [
+    {
+      "name": "Chrome",
+      "uri": "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF36991A3-422F-B77B-35B5-617BE3F44869%7D%26lang%3Den%26browser%3D5%26usagestats%3D1%26appname%3DGoogle%2520Chrome%26needsadmin%3Dtrue%26ap%3Dx64-stable%26brand%3DGCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi",
+      "extension": "msi"
+    },
+    {
+      "name": "Fiddler",
+      "uri": "https://www.telerik.com/docs/default-source/fiddler/fiddlersetup.exe?sfvrsn=4",
+      "option": "/S /install"
+    },
+    {
+      "name": "NetMon",
+      "uri": "https://download.microsoft.com/download/7/1/0/7105C7FF-768E-4472-AFD5-F29108D1E383/NM34_x64.exe",
+      "option": "/Q"
+    },
+    {
+      "name": "Firefox",
+      "uri": "https://download.mozilla.org/?product=firefox-56.0.1-SSL&os=win64&lang=ja",
+      "option": "-ms"
+    },
+    {
+      "name": "Opera",
+      "uri": "http://net.geo.opera.com/opera/stable/windows?http_referrer=https://www.google.co.jp/&utm_source=google_via_opera_com&utm_medium=ose&utm_campaign=google_ose_via_opera_com&utm_fsce=true&utm_defbr=false",
+      "option": "/silent /install"
+    },
+    {
+      "name": "PuTTY",
+      "uri": "https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.70-installer.msi",
+      "extension": "msi"
+    },
+    {
+      "name": "Notepad++",
+      "uri": "https://notepad-plus-plus.org/repository/7.x/7.5.1/npp.7.5.1.Installer.x64.exe",
+      "option": "/S"
+    },
+    {
+      "name": "Git",
+      "uri": "https://github.com/git-for-windows/git/releases/download/v2.14.2.windows.3/Git-2.14.2.3-64-bit.exe",
+      "option": "/VERYSILENT"
+    },
+    {
+      "name": "Tor",
+      "uri": "https://dist.torproject.org/torbrowser/7.5a8/torbrowser-install-win64-7.5a8_en-US.exe",
+      "option": "/silent /install"
+    }
+  ]
 }
