@@ -1,17 +1,6 @@
 Param(
     [string] $ProgramsToInstall = "programs.json"
 )
-$programs = Get-content -Path $ProgramsToInstall | ConvertFrom-Json
-Write-Output $programs
-
-foreach($p in $programs.programs){
-    Write-output "Downloading and Installing $p.name"
-    if($p.extension -eq 'msi'){
-        DownloadAndInstallMsi $p.uri $true
-        }
-        else{
-    DownloadAndInstallExe $p.uri $p.option
- }}
 
 function DownloadAndInstallMsi ($downloadUrl, $quietInstall) {
     $exe="c:\windows\system32\msiexec.exe"
@@ -51,3 +40,15 @@ Function DownloadAndInstallExe
     $installer = (new-guid).toString() + ".exe"
     (new-object System.Net.WebClient).DownloadFile($uri, "$LocalTempDir\$installer"); & "$LocalTempDir\$installer" $option; $Process2Monitor =  "installer"; Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$installer" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
 }
+
+$programs = Get-content -Path $ProgramsToInstall | ConvertFrom-Json
+Write-Output $programs
+
+foreach($p in $programs.programs){
+    Write-output "Downloading and Installing $p.name"
+    if($p.extension -eq 'msi'){
+        DownloadAndInstallMsi $p.uri $true
+        }
+        else{
+    DownloadAndInstallExe $p.uri $p.option
+ }}
