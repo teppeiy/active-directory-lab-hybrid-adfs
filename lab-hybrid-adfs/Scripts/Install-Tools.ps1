@@ -48,7 +48,7 @@ Function DownloadAndInstallExe
     $Process2Monitor =  $installer
     Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$installer" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
 }
-
+Set-ExecutionPolicy Unrestricted -force
 $programs = Get-content -Path $ProgramsToInstall | ConvertFrom-Json
 Write-Output $programs
 
