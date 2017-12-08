@@ -292,7 +292,9 @@
     <None Include="Scripts\ConfigRDPUsers.ps1" />
     <None Include="Scripts\CopyCertToWAP.ps1" />
     <None Include="Scripts\DeployAD.ps1" />
+    <None Include="Scripts\Install-Tools.ps1" />
     <None Include="Scripts\InstallADFS.ps1" />
+    <None Include="Scripts\programs.json" />
     <None Include="Templates\adDeploy.json" />
     <None Include="Templates\adfsDeploy.json" />
     <None Include="Templates\clientDeploy.json" />

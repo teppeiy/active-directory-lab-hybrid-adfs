@@ -1,0 +1,75 @@
+{
+    "programs": [
+        {
+            "name": "vscode",
+            "uri": "https://go.microsoft.com/fwlink/?Linkid=852157",
+            "option": "/SILENT",
+            "extension": "exe"
+        },
+        {
+            "name": "Chrome",
+            "uri": "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF36991A3-422F-B77B-35B5-617BE3F44869%7D%26lang%3Den%26browser%3D5%26usagestats%3D1%26appname%3DGoogle%2520Chrome%26needsadmin%3Dtrue%26ap%3Dx64-stable%26brand%3DGCEA/dl/chrome/install/googlechromestandaloneenterprise64.msi",
+            "extension": "msi"
+        },
+        {
+            "name": "Fiddler",
+            "uri": "https://www.telerik.com/docs/default-source/fiddler/fiddlersetup.exe?sfvrsn=4",
+            "option": "/S /install"
+        },
+        {
+            "name": "NetMon",
+            "uri": "https://download.microsoft.com/download/7/1/0/7105C7FF-768E-4472-AFD5-F29108D1E383/NM34_x64.exe",
+            "option": "/Q"
+        },
+        {
+            "name": "Firefox",
+            "uri": "https://download.mozilla.org/?product=firefox-56.0.1-SSL&os=win64&lang=ja",
+            "option": "/silent /install"
+        },
+        {
+            "name": "Opera",
+            "uri": "http://net.geo.opera.com/opera/stable/windows?http_referrer=https://www.google.co.jp/&utm_source=google_via_opera_com&utm_medium=ose&utm_campaign=google_ose_via_opera_com&utm_fsce=true&utm_defbr=false",
+            "option": "/silent /install"
+        },
+        {
+            "name": "TestStudio",
+            "uri": "https://downloads.cdn.telerik.com/9f4ed72a4259855469f90fc6423edb84_TestStudioUltimateSetup_2017_3_1002_3.exe_2017.3.1002.3?Expires=1508036969&Signature=oyXWcE1zE9laYgbyX~ouzc0jkQU5WYKeJL98OpLlPvHBQv60bvtsD01w5AEYi1angeaKnY9~T~rf903aUxUmq0~AKnx42N~~zrtRD~XiMkzPYcJ3cjh4XHpF4iHTsjDVkY9nedf~2cjLlCvbCEAxXv0XJuhG-hnhPsCdK3PmZaJWOjRZTZc4sw7Fc0WezIVXWw75PAa3oKuONDIDMHMPjMRFHnVOFSJlmtJ6inV4GD8BVRhMyPgz0~ZFtWed3bJwPwdsvQssRu45nB~2t8awZ~jFwOColpGqePPi3wgstMhsNFqDQyDttGOZ~7NRKZ2QxYlNCGMCO0lN5hePwN0g~w__&Key-Pair-Id=APKAJARUJ5BRNXKUUAFQ",
+            "option": "/S /install"
+        },
+        {
+            "name": "PuTTY",
+            "uri": "https://the.earth.li/~sgtatham/putty/latest/w64/putty-64bit-0.70-installer.msi",
+            "extension": "msi"
+        },
+        {
+            "name": "Notepad++",
+            "uri": "https://notepad-plus-plus.org/repository/7.x/7.5.1/npp.7.5.1.Installer.x64.exe",
+            "option": "/S"
+        },
+        {
+            "name": "Git",
+            "uri": "https://github.com/git-for-windows/git/releases/download/v2.14.2.windows.3/Git-2.14.2.3-64-bit.exe",
+            "option": "/silent /install"
+        },
+        {
+            "name": "RCMan",
+            "uri": "https://download.microsoft.com/download/A/F/0/AF0071F3-B198-4A35-AA90-C68D103BDCCF/rdcman.msi",
+            "extension": "msi"
+        },
+        {
+            "name": "Snip",
+            "uri": "https://e0d1.wpc.azureedge.net/80E0D1/OfficeMixProdBlobStorage/setup/Snip.Setup.exe?sv=2014-02-14&sr=b&sig=7rNmQjfXryoNUNDJRVAQZlS3cf%2B0hJrxKLIfy4BRyf4%3D&se=2017-10-17T03%3A12%3A35Z&sp=r&ETag=%220x8D2D90798CC0BF5%22&fe=.exe",
+            "option": "/silent /install"
+        },
+        {
+            "name": "Teams",
+            "uri": "https://statics.teams.microsoft.com/production-windows-x64/1.0.00.26863/Teams_windows_x64.exe",
+            "option": "/silent /install"
+        },
+        {
+            "name": "Tor",
+            "uri": "https://www.torproject.org/dist/torbrowser/7.0.6/torbrowser-install-7.0.6_en-US.exe",
+            "option": "/silent /install"
+        }
+    ]
+}
