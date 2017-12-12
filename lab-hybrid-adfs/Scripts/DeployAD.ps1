@@ -70,6 +70,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 		$unattendedFile = "unattended.txt"
 		"Creating $unattendedFile in $loc" >> $log
 
+		$netbiosName = $domain.Split(".")[0]
 		New-item -ItemType File "$unattendedFile" -Force
 		"[DCInstall]" >> $unattendedFile
 		"ReplicaOrNewDomain=Domain" >> $unattendedFile
@@ -81,7 +82,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 		"InstallDNS=Yes" >> $unattendedFile
 		"ConfirmGc=Yes" >> $unattendedFile
 		"CreateDNSDelegation=No" >> $unattendedFile
-		"SafeModeAdminPassword=$password" >> $unattendedFile
+		"SafeModeAdminPassword=$smPassword" >> $unattendedFile
 
 		"Unattended file created" >> $log
 		"Promoting DC" >> $log
