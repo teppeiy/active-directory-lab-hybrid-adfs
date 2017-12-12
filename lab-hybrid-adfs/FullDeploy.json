@@ -32,7 +32,7 @@
       "defaultValue": "Win2012",
       "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
-        "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2, "
+        "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2"
       }
     },
     "adForestMode": {
@@ -40,8 +40,9 @@
       "defaultValue": "Win2012",
       "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
-        "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2, "
-      },
+        "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2"
+      }
+    },
       "usersArray": {
         "type": "array",
         "defaultValue": [
