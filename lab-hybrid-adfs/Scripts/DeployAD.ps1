@@ -56,6 +56,8 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 
     #record that we got this far
     New-Item -ItemType file "$($completeFile)$step"
+	$log = "$($completeFile).log"
+	New-Item -ItemType File $log
 }
 
 $step=2
@@ -63,9 +65,11 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
     $smPassword = (ConvertTo-SecureString $password -AsPlainText -Force)
 
 	if($adImageSKU -eq "2008-R2-SP1"){# Win2008R2
-		New-Item -ItemType file "$($completeFile)$adImageSKU"
-
+		"In 2008-R2-SP1 path: $adImageSKU" >> $log
+		$loc = Get-Location
 		$unattendedFile = "unattended.txt"
+		"Creating $unattendedFile in $loc" >> $log
+
 		New-item -ItemType File "$unattendedFile" -Force
 		"[DCInstall]" >> $unattendedFile
 		"ReplicaOrNewDomain=Domain" >> $unattendedFile
@@ -79,11 +83,12 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 		"CreateDNSDelegation=No" >> $unattendedFile
 		"SafeModeAdminPassword=$password" >> $unattendedFile
 
-		$loc = Get-Location
-		New-Item -ItemType file "$($completeFile)-dir-$loc"
-		New-Item -ItemType file "$($completeFile)-$unattendedFile"
+		"Unattended file created" >> $log
+		"Promoting DC" >> $log
 
 		& dcpromo /unattend:$unattendedFile
+
+		"Promo completed" >> $log
 	}
 	else{ # Win2012 or above
 		#Install AD, reconfig network
