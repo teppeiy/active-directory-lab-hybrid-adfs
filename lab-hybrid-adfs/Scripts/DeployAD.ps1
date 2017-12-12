@@ -6,7 +6,7 @@ param (
     [string]$password,
 
 	[string]$DomainMode = "Win2012",
-	[string]$ForestMode =  "Win2012"
+	[string]$ForestMode =  "Win2012",
 		<# https://technet.microsoft.com/en-us/library/hh974720%28v=wps.630%29.aspx?f=255&MSPPError=-2147217396
 	 -- Windows Server 2003: 2 or Win2003
      -- Windows Server 2008: 3 or Win2008
@@ -14,7 +14,8 @@ param (
      -- Windows Server 2012: 5 or Win2012
      -- Windows Server 2012 R2: 6 or Win2012R2
 	#>
-
+	[string]$adImageSKU = "2012-R2-Datacenter"
+	#"allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
 )
 
 $ErrorActionPreference = "Stop"
@@ -62,17 +63,35 @@ $step=2
 if (!(Test-Path -Path "$($completeFile)$step")) {
     $smPassword = (ConvertTo-SecureString $password -AsPlainText -Force)
 
-    #Install AD, reconfig network
-    Install-WindowsFeature -Name "AD-Domain-Services" `
-                           -IncludeManagementTools `
-                           -IncludeAllSubFeature 
+	if($adImageSKU -eq "2008-R2-SP1"){# Win2008R2
 
+		$unattendedFile = "unattended.txt"
+		New-item $unattendedFile -Force
+		"[DCInstall]" >> $unattendedFile
+		"ReplicaOrNewDomain=Domain" >> $unattendedFile
+		"NewDomain=Forest" >> $unattendedFile
+		"NewDomainDNSName=$domain" >> $unattendedFile
+		"ForestLevel=4" >> $unattendedFile
+		"DomainNetbiosName=$netbiosName" >> $unattendedFile
+		"DomainLevel=4" >> $unattendedFile
+		"InstallDNS=Yes" >> $unattendedFile
+		"ConfirmGc=Yes" >> $unattendedFile
+		"CreateDNSDelegation=No" >> $unattendedFile
+		"SafeModeAdminPassword=$password" >> $unattendedFile
+		& dcpromo /unattend:unattended.txt
+	}
+	else{ # Win2012 or above
+		#Install AD, reconfig network
+		Install-WindowsFeature -Name "AD-Domain-Services" `
+							   -IncludeManagementTools `
+							   -IncludeAllSubFeature 
 
-    Install-ADDSForest -DomainName $domain `
-                       -DomainMode $DomainMode `
-                       -ForestMode $ForestMode `
-                       -Force `
-                       -SafeModeAdministratorPassword $smPassword 
+		Install-ADDSForest -DomainName $domain `
+						   -DomainMode $DomainMode `
+						   -ForestMode $ForestMode `
+						   -Force `
+						   -SafeModeAdministratorPassword $smPassword 
+	}
 
     #record that we got this far
     New-Item -ItemType file "$($completeFile)$step"
