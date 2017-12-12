@@ -269,7 +269,7 @@
           "networkInterfaceName": { "value": "[variables('NetworkInterfaceName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
-          "imageSKU": { "value": "[parameters('adImageSKU')]" },
+          "adImageSKU": { "value": "[parameters('adImageSKU')]" },
           "deploymentNumber": { "value": "[parameters('deploymentNumber')]" }
         }
       }

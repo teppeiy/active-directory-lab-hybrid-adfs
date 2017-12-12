@@ -72,11 +72,6 @@
       "type": "string",
       "defaultValue": "Standard_D1_v2",
       "metadata": { "description": "This is the allowed list of VM sizes" }
-    },
-    "imageSKU": {
-      "type": "string",
-      "defaultValue": "2012-R2-Datacenter",
-      "metadata": { "description": "imageSKU" }
     }
   },
   "variables": {
@@ -155,7 +150,7 @@
           "imageReference": {
             "publisher": "[variables('imagePublisher')]",
             "offer": "[variables('imageOffer')]",
-            "sku": "[parameters('imageSKU')]",
+            "sku": "[parameters('adImageSKU')]",
             "version": "latest"
           },
           "osDisk": {
