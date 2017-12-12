@@ -14,7 +14,8 @@ param (
 	#"allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
 )
 
-$ErrorActionPreference = "Stop"
+#$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 
 $completeFile="c:\temp\prereqsComplete"
 if (!(Test-Path -Path "c:\temp")) {
