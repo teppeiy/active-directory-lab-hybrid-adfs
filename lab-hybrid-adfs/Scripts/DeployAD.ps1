@@ -6,7 +6,7 @@ param (
     [string]$password,
 
 	[string]$DomainMode = "Win2012",
-[string]$ForestMode =  "Win2012"
+	[string]$ForestMode =  "Win2012"
 		<# https://technet.microsoft.com/en-us/library/hh974720%28v=wps.630%29.aspx?f=255&MSPPError=-2147217396
 	 -- Windows Server 2003: 2 or Win2003
      -- Windows Server 2008: 3 or Win2008
