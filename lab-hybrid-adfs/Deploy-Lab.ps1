@@ -5,10 +5,11 @@ $TemplateParameterFile = "C:\Users\teppeiy\source\repos\active-directory-lab-hyb
 #New-AzureRmResourceGroupDeployment -ResourceGroupName "lab9" -deploymentNumber 9 -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile -Verbose
 
 #adDomainMode/adForestMode "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ]
+# Numbering and Win2003 will fail in DeployAD.ps1
 #adImageSKU/adfsImageSKU "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
 
 # Win2008R2
-$deploymentNumber = 4
+$deploymentNumber = 3
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `

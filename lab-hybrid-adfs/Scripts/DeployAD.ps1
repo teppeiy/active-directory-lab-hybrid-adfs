@@ -118,6 +118,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 		"Network config for 2008-R2-SP1" >> $log
 	}
 	else{ # Win2012 or above
+		"Network config for Win2012 or above" >> $log
 		# Retrieve the network adapter that you want to configure
 		$adapter = Get-NetAdapter | ? {$_.Status -eq "up"}
 		$cfg = ($adapter | Get-NetIPConfiguration)
