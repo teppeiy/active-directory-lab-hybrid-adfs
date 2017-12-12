@@ -8,7 +8,8 @@ $TemplateParameterFile = "C:\Users\teppeiy\source\repos\active-directory-lab-hyb
 $deploymentNumber = 5
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
-New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile -deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -Verbose
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
 
 
 Remove-AzureRmResourceGroup -Name "Forest-3" -force

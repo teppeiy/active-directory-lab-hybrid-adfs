@@ -30,6 +30,7 @@
     "adDomainMode": {
       "type": "string",
       "defaultValue": "Win2012",
+      "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
         "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2, "
       }
@@ -37,106 +38,107 @@
     "adForestMode": {
       "type": "string",
       "defaultValue": "Win2012",
+      "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
         "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2, "
       },
-    "usersArray": {
-      "type": "array",
-      "defaultValue": [
-        {
-          "FName": "Bob",
-          "LName": "Jones",
-          "SAM": "bjones"
-        },
-        {
-          "FName": "Bill",
-          "LName": "Smith",
-          "SAM": "bsmith"
-        },
-        {
-          "FName": "Mary",
-          "LName": "Phillips",
-          "SAM": "mphillips"
-        },
-        {
-          "FName": "Sue",
-          "LName": "Jackson",
-          "SAM": "sjackson"
-        }
-      ],
-      "metadata": { "description": "JSON object array of users that will be loaded into AD once the domain is established." }
-    },
-    "defaultUserPassword": {
-      "type": "securestring",
-      "metadata": { "description": "Enter the password that will be applied to each user account to be created in AD." }
-    },
-    "AdfsFarmCount": {
-      "type": "string",
-      "defaultValue": "1",
-      "allowedValues": [ "1", "2", "3", "4", "5" ],
-      "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing." }
-    },
-    "vmSize": {
-      "type": "string",
-      "defaultValue": "Standard_D2_v2",
-      "allowedValues": [ "Standard_A1_v2", "Standard_A2_v2", "Standard_A4_v2", "Standard_A2M_v2", "Standard_A4M_v2", "Standard_A4_v2", "Standard_D2_v2", "Standard_D3_v2", "Standard_D11_v2", "Standard_D12_v2" ],
-      "metadata": { "description": "Select a VM SKU (please ensure the SKU is available in your selected region)." }
-    },
-    "virtualNetworkAddressRange": {
-      "type": "string",
-      "metadata": { "description": "The address range of the new virtual network in CIDR format" },
-      "defaultValue": "10.0.0.0/16"
-    },
-    "adSubnetAddressRange": {
-      "type": "string",
-      "metadata": { "description": "The address range of the desired subnet for Active Directory." },
-      "defaultValue": "10.0.1.0/24"
-    },
-    "adIP": {
-      "type": "string",
-      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
-      "defaultValue": "10.0.1.4"
-    },
-    "adfsIP": {
-      "type": "string",
-      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
-      "defaultValue": "10.0.1.5"
-    },
-    "dmzSubnetAddressRange": {
-      "type": "string",
-      "metadata": { "description": "The address range of the desired subnet for the DMZ." },
-      "defaultValue": "10.0.2.0/24"
-    },
-    "cliSubnetAddressRange": {
-      "type": "string",
-      "metadata": { "description": "The address range of the desired subnet for clients." },
-      "defaultValue": "10.0.3.0/24"
-    },
-    "clientsToDeploy": {
-      "type": "array",
-      "metadata": {
-        "description": "ClientsToDeploy, array, possible values: 7, 8, 10-1511, 10-1607, 10-1703. Examples: Single Win7 VM = [\"7\"]. Two Win7, one Win10 Creators = [\"7\", \"7\", \"10-1703\"]."
+      "usersArray": {
+        "type": "array",
+        "defaultValue": [
+          {
+            "FName": "Bob",
+            "LName": "Jones",
+            "SAM": "bjones"
+          },
+          {
+            "FName": "Bill",
+            "LName": "Smith",
+            "SAM": "bsmith"
+          },
+          {
+            "FName": "Mary",
+            "LName": "Phillips",
+            "SAM": "mphillips"
+          },
+          {
+            "FName": "Sue",
+            "LName": "Jackson",
+            "SAM": "sjackson"
+          }
+        ],
+        "metadata": { "description": "JSON object array of users that will be loaded into AD once the domain is established." }
       },
-      "defaultValue": [ "10" ]
+      "defaultUserPassword": {
+        "type": "securestring",
+        "metadata": { "description": "Enter the password that will be applied to each user account to be created in AD." }
+      },
+      "AdfsFarmCount": {
+        "type": "string",
+        "defaultValue": "1",
+        "allowedValues": [ "1", "2", "3", "4", "5" ],
+        "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing." }
+      },
+      "vmSize": {
+        "type": "string",
+        "defaultValue": "Standard_D2_v2",
+        "allowedValues": [ "Standard_A1_v2", "Standard_A2_v2", "Standard_A4_v2", "Standard_A2M_v2", "Standard_A4M_v2", "Standard_A4_v2", "Standard_D2_v2", "Standard_D3_v2", "Standard_D11_v2", "Standard_D12_v2" ],
+        "metadata": { "description": "Select a VM SKU (please ensure the SKU is available in your selected region)." }
+      },
+      "virtualNetworkAddressRange": {
+        "type": "string",
+        "metadata": { "description": "The address range of the new virtual network in CIDR format" },
+        "defaultValue": "10.0.0.0/16"
+      },
+      "adSubnetAddressRange": {
+        "type": "string",
+        "metadata": { "description": "The address range of the desired subnet for Active Directory." },
+        "defaultValue": "10.0.1.0/24"
+      },
+      "adIP": {
+        "type": "string",
+        "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
+        "defaultValue": "10.0.1.4"
+      },
+      "adfsIP": {
+        "type": "string",
+        "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
+        "defaultValue": "10.0.1.5"
+      },
+      "dmzSubnetAddressRange": {
+        "type": "string",
+        "metadata": { "description": "The address range of the desired subnet for the DMZ." },
+        "defaultValue": "10.0.2.0/24"
+      },
+      "cliSubnetAddressRange": {
+        "type": "string",
+        "metadata": { "description": "The address range of the desired subnet for clients." },
+        "defaultValue": "10.0.3.0/24"
+      },
+      "clientsToDeploy": {
+        "type": "array",
+        "metadata": {
+          "description": "ClientsToDeploy, array, possible values: 7, 8, 10-1511, 10-1607, 10-1703. Examples: Single Win7 VM = [\"7\"]. Two Win7, one Win10 Creators = [\"7\", \"7\", \"10-1703\"]."
+        },
+        "defaultValue": [ "10" ]
+      },
+      "clientImageBaseResource": {
+        "type": "string",
+        "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images, like /subscriptions/&lt;YourAzureSubscriptionID&gt;/resourceGroups/&lt;YourImageRG&gt;/providers/Microsoft.Compute/images/" },
+        "defaultValue": "/subscriptions/9b559a7e-7309-450c-b043-1bbf99fa8ebe/resourceGroups/Utilities/providers/Microsoft.Compute/images/"
+      },
+      "adImageSKU": {
+        "type": "string",
+        "metadata": { "description": "adImageSKU" },
+        "defaultValue": "2012-R2-Datacenter",
+        "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
+      },
+      "adfsImageSKU": {
+        "type": "string",
+        "metadata": { "description": "adfsImageSKU" },
+        "defaultValue": "2012-R2-Datacenter",
+        "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
+      }
     },
-    "clientImageBaseResource": {
-      "type": "string",
-      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images, like /subscriptions/&lt;YourAzureSubscriptionID&gt;/resourceGroups/&lt;YourImageRG&gt;/providers/Microsoft.Compute/images/" },
-      "defaultValue": "/subscriptions/9b559a7e-7309-450c-b043-1bbf99fa8ebe/resourceGroups/Utilities/providers/Microsoft.Compute/images/"
-    },
-    "adImageSKU": {
-      "type": "string",
-      "metadata": { "description": "adImageSKU" },
-      "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
-    },
-    "adfsImageSKU": {
-      "type": "string",
-      "metadata": { "description": "adfsImageSKU" },
-      "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
-    }
-  },
   "variables": {
     "adfsDeployCount": "[int(parameters('AdfsFarmCount'))]",
     "networkInterfaceName": "NIC",
