@@ -8,7 +8,7 @@ $TemplateParameterFile = "C:\Users\teppeiy\source\repos\active-directory-lab-hyb
 #adImageSKU/adfsImageSKU "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
 
 # Win2008R2
-$deploymentNumber = 3
+$deploymentNumber = 4
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
