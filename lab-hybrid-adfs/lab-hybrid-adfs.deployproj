@@ -33,7 +33,7 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
-    <None Include="DSC\adDSC.zip" />
+    <None Include="DSC\adDSC2.zip" />
     <None Include="DSC\adDSC\adDSCConfiguration.ps1" />
     <None Include="DSC\adDSC\xActiveDirectory\2.16.0.0\Assert-HADC.ps1" />
     <None Include="DSC\adDSC\xActiveDirectory\2.16.0.0\Assert-ParentChildDomains.ps1" />
