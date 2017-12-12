@@ -32,6 +32,20 @@
       "type": "string",
       "defaultValue": "contoso.com"
     },
+    "adDomainMode": {
+      "type": "string",
+      "defaultValue": "Win2012",
+      "metadata": {
+        "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2, "
+      }
+    },
+    "adForestMode": {
+      "type": "string",
+      "defaultValue": "Win2012",
+      "metadata": {
+        "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2, "
+      }
+    },
     "assetLocation": {
       "type": "string"
     },
@@ -173,7 +187,7 @@
               "fileUris": [
                 "[variables('DeployADTemplateUri')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('DeployADTemplate'), ' ', parameters('adDomainName'), ' ', parameters('adminPassword'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('DeployADTemplate'), ' ', parameters('adDomainName'), ' ', parameters('adminPassword'), ' ', parameters('adDomainMode'), ' ', parameters('adForestMode'))]"
             }
           }
         }

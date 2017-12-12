@@ -3,7 +3,17 @@ param (
     [string]$domain,
 
     [Parameter(Mandatory)]
-    [string]$password
+    [string]$password,
+
+	[string]$DomainMode = "Win2012",
+[string]$ForestMode =  "Win2012"
+		<# https://technet.microsoft.com/en-us/library/hh974720%28v=wps.630%29.aspx?f=255&MSPPError=-2147217396
+	 -- Windows Server 2003: 2 or Win2003
+     -- Windows Server 2008: 3 or Win2008
+     -- Windows Server 2008 R2: 4 or Win2008R2
+     -- Windows Server 2012: 5 or Win2012
+     -- Windows Server 2012 R2: 6 or Win2012R2
+	#>
 
 )
 
@@ -57,9 +67,10 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
                            -IncludeManagementTools `
                            -IncludeAllSubFeature 
 
+
     Install-ADDSForest -DomainName $domain `
-                       -DomainMode Win2008R2 `
-                       -ForestMode Win2008R2 `
+                       -DomainMode $DomainMode `
+                       -ForestMode $ForestMode `
                        -Force `
                        -SafeModeAdministratorPassword $smPassword 
 
