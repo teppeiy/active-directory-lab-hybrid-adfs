@@ -63,6 +63,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
     $smPassword = (ConvertTo-SecureString $password -AsPlainText -Force)
 
 	if($adImageSKU -eq "2008-R2-SP1"){# Win2008R2
+		    New-Item -ItemType file "$($completeFile)$adImageSKU"
 
 		$unattendedFile = "unattended.txt"
 		New-item $unattendedFile -Force
@@ -82,6 +83,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 	}
 	else{ # Win2012 or above
 		#Install AD, reconfig network
+		New-Item -ItemType file "$($completeFile)not2008r2"
 		Install-WindowsFeature -Name "AD-Domain-Services" `
 							   -IncludeManagementTools `
 							   -IncludeAllSubFeature 
