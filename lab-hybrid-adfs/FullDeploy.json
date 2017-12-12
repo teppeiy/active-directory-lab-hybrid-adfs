@@ -310,8 +310,8 @@
         "forceUpdateTag": "1.02",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesUrl": "[variables('adDSCTemplate')]",
           "configurationFunction": "[variables('adDSCConfigurationFunction')]",
+          "modulesUrl": "[variables('adDSCTemplate')]",
           "properties": [
             {
               "Name": "Subject",
@@ -320,8 +320,8 @@
             },
             {
               "Name": "ADFSFarmCount",
-              "Value": "[parameters('AdfsFarmCount')]",
-              "TypeName": "System.Integer"
+              "TypeName": "System.Integer",
+              "Value": "[parameters('AdfsFarmCount')]"
             },
             {
               "Name": "AdminCreds",
