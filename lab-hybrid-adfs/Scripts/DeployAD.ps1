@@ -24,9 +24,11 @@ if (!(Test-Path -Path "c:\temp")) {
 $step=1
 if (!(Test-Path -Path "$($completeFile)$step")) {
     # Shortcuts
+	<#
 	if (!(Test-Path -Path "c:\AADLab")) {
 		md "c:\AADLab" -ErrorAction Ignore
 	}
+	#>
 
 	$WshShell = New-Object -comObject WScript.Shell
 	$dt="C:\Users\Public\Desktop\"
