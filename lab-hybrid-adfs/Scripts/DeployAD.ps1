@@ -58,8 +58,8 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
                            -IncludeAllSubFeature 
 
     Install-ADDSForest -DomainName $domain `
-                       -DomainMode Win2012 `
-                       -ForestMode Win2012 `
+                       -DomainMode Win2008R2 `
+                       -ForestMode Win2008R2 `
                        -Force `
                        -SafeModeAdministratorPassword $smPassword 
 
