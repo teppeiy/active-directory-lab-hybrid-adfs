@@ -63,10 +63,10 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
     $smPassword = (ConvertTo-SecureString $password -AsPlainText -Force)
 
 	if($adImageSKU -eq "2008-R2-SP1"){# Win2008R2
-		    New-Item -ItemType file "$($completeFile)$adImageSKU"
+		New-Item -ItemType file "$($completeFile)$adImageSKU"
 
 		$unattendedFile = "unattended.txt"
-		New-item $unattendedFile -Force
+		New-item -ItemType File "$unattendedFile" -Force
 		"[DCInstall]" >> $unattendedFile
 		"ReplicaOrNewDomain=Domain" >> $unattendedFile
 		"NewDomain=Forest" >> $unattendedFile
@@ -79,7 +79,11 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 		"CreateDNSDelegation=No" >> $unattendedFile
 		"SafeModeAdminPassword=$password" >> $unattendedFile
 
-		& dcpromo /unattend:unattended.txt
+		$loc = Get-Location
+		New-Item -ItemType file "$($completeFile)-dir-$loc"
+		New-Item -ItemType file "$($completeFile)-$unattendedFile"
+
+		& dcpromo /unattend:$unattendedFile
 	}
 	else{ # Win2012 or above
 		#Install AD, reconfig network
