@@ -78,6 +78,7 @@ if (!(Test-Path -Path "$($completeFile)$step")) {
 		"ConfirmGc=Yes" >> $unattendedFile
 		"CreateDNSDelegation=No" >> $unattendedFile
 		"SafeModeAdminPassword=$password" >> $unattendedFile
+
 		& dcpromo /unattend:unattended.txt
 	}
 	else{ # Win2012 or above
