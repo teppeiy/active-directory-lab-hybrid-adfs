@@ -241,7 +241,7 @@
           "imageReference": {
             "publisher": "[variables('imagePublisher')]",
             "offer": "[variables('imageOffer')]",
-            "sku": "[parameters('adfsImageSKU')]",
+            "sku": "[parameters('imageSKU')]",
             "version": "latest"
           },
           "osDisk": {
