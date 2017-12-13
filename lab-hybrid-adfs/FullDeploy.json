@@ -260,6 +260,8 @@
           "adIP": { "value": "[parameters('adIP')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adDomainMode": { "value": "[parameters('adDomainMode')]" },
+          "adForestMode": { "value": "[parameters('adForestMode')]" },
           "adDomainName": { "value": "[parameters('adDomainName')]" },
           "adSubnetName": { "value": "[variables('adSubnetName')]" },
           "adVMName": { "value": "[variables('adVMName')]" },
