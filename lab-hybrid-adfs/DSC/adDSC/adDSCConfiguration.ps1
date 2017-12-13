@@ -51,7 +51,7 @@ configuration DomainController
     {
         xPowerShellExecutionPolicy ExecutionPolicy
         {
-            ExecutionPolicy = "Unrestricted"
+            ExecutionPolicy = 'RemoteSigned'
         }
         LocalConfigurationManager {
             DebugMode          = 'All'

@@ -20,7 +20,7 @@ Configuration Main
     {
         xPowerShellExecutionPolicy ExecutionPolicy
         {
-            ExecutionPolicy = "Unrestricted"
+            ExecutionPolicy = 'RemoteSigned'
         }
         LocalConfigurationManager            
         {            
