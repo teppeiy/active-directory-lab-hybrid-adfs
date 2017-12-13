@@ -74,14 +74,14 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -Templa
 
 
 # Win2012 - 
-$deploymentNumber = 3
+$deploymentNumber = 4
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
 	-deploymentNumber $deploymentNumber -adImageSKU "2012-R2-Datacenter" -adfsImageSKU "2012-R2-Datacenter" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
 
 # Win2008R2
-$deploymentNumber = 8
+$deploymentNumber = 5
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
