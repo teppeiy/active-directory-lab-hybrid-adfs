@@ -74,6 +74,7 @@ configuration DomainController
             Ensure = "Present"
         }
 
+        <#
         xSmbShare SrcShare
         {
             Ensure = "Present"
@@ -83,7 +84,7 @@ configuration DomainController
             ReadAccess = "Authenticated Users"
             DependsOn = "[File]SrcFolder"
         }
-
+#>
         xADCSCertificationAuthority ADCS
         {
             Ensure = 'Present'
