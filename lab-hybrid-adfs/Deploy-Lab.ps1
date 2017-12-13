@@ -15,6 +15,56 @@ New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
 	-deploymentNumber $deploymentNumber -Verbose
 
+# Win2012 - 
+$deploymentNumber = 4
+$ResourceGroupName = "Forest-$deploymentNumber"
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2012-R2-Datacenter" -adfsImageSKU "2012-R2-Datacenter" -adDomainMode "Win2012" -adForestMode "Win2012" -Verbose
+
+
+# Win2008R2
+$deploymentNumber = 6
+$ResourceGroupName = "Forest-$deploymentNumber"
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
+
+
+# Win2012 - 
+$deploymentNumber = 7
+$ResourceGroupName = "Forest-$deploymentNumber"
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2012-R2-Datacenter" -adfsImageSKU "2012-R2-Datacenter" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
+
+
+
+# Win2008R2
+$deploymentNumber = 3
+$ResourceGroupName = "Forest-$deploymentNumber"
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
+
+
+# Win2008R2
+$deploymentNumber = 8
+$ResourceGroupName = "Forest-$deploymentNumber"
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
+
+
+# Win2012 - 
+$deploymentNumber = 9
+$ResourceGroupName = "Forest-$deploymentNumber"
+New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
+New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
+	-deploymentNumber $deploymentNumber -adImageSKU "2012-R2-Datacenter" -adfsImageSKU "2012-R2-Datacenter" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
+
+
+
 
 
 
