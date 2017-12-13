@@ -188,7 +188,7 @@
               "fileUris": [
                 "[variables('DeployADTemplateUri')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('DeployADTemplate'), ' ', parameters('adDomainName'), ' ', parameters('adminPassword'))]"
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('DeployADTemplate'), ' ', parameters('adDomainName'), ' ', parameters('adminPassword'), ' ', parameters('adDomainMode'), ' ', parameters('adForestMode'), ' ', parameters('imageSKU'))]"              
             }
           }
         }
