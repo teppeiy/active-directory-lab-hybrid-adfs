@@ -178,7 +178,8 @@
     "DeployADFSFarmTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/InstallADFS.ps1')]",
     "CopyCertToWAPTemplate": "CopyCertToWAP.ps1",
     "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/CopyCertToWAP.ps1')]",
-    "adDSCConfigurationFunction": "adDSCConfiguration.ps1\\DomainController",
+    "adDSCConfigurationScript": "adDSCConfiguration.ps1",
+    "adDSCConfigurationFunction": "DomainController",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -308,51 +309,28 @@
         "forceUpdateTag": "1.02",
         "autoUpgradeMinorVersion": true,
         "settings": {
-          "modulesUrl": "[variables('adDSCTemplate')]",
-          "configurationFunction": "[variables('adDSCConfigurationFunction')]",
-          "properties": [
-            {
-              "Name": "Subject",
-              "Value": "[variables('WAPPubIpDnsFQDN')]",
-              "TypeName": "System.String"
-            },
-            {
-              "Name": "ADFSFarmCount",
-              "Value": "[parameters('AdfsFarmCount')]",
-              "TypeName": "System.Integer"
-            },
-            {
-              "Name": "AdminCreds",
-              "Value": {
-                "UserName": "[parameters('adminUsername')]",
-                "Password": "PrivateSettingsRef:AdminPassword"
-              },
-              "TypeName": "System.Management.Automation.PSCredential"
-            },
-            {
-              "Name": "ADFSIPAddress",
-              "Value": "[parameters('adfsIP')]",
-              "TypeName": "System.String"
-            },
-            {
-              "Name": "usersArray",
-              "Value": "[parameters('usersArray')]",
-              "TypeName": "System.Object"
-            },
-            {
-              "Name": "UserCreds",
-              "Value": {
-                "UserName": "user",
-                "Password": "PrivateSettingsRef:UserPassword"
-              },
-              "TypeName": "System.Management.Automation.PSCredential"
-            }
-          ]
+          "configuration": {
+            "url": "[variables('adDSCTemplate')]",
+            "script": "[variables('adDSCConfigurationScript')]",
+            "function": "[variables('adDSCConfigurationFunction')]"
+          },
+          "configurationArguments": {
+            "ADFSFarmCount": "[parameters('AdfsFarmCount')]",
+            "ADFSIPAddress": "[parameters('adfsIP')]",
+            "Subject": "[variables('WAPPubIpDnsFQDN')]",
+            "usersArray": "[parameters('usersArray')]"
+          }
         },
         "protectedSettings": {
-          "Items": {
-            "AdminPassword": "[parameters('adminPassword')]",
-            "UserPassword": "[parameters('defaultUserPassword')]"
+          "configurationArguments": {
+            "AdminCreds": {
+              "UserName": "[parameters('adminUsername')]",
+              "Password": "[parameters('adminPassword')]"
+            },
+            "UserCreds": {
+              "UserName": "user",
+              "Password": "[parameters('defaultUserPassword')]"
+            }
           }
         }
       }
