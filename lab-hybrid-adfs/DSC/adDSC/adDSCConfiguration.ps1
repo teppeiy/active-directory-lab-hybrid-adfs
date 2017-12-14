@@ -22,7 +22,7 @@ configuration DomainController
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$UserCreds,
 
-        [Int]$RetryCount = 20,
+        [Int]$RetryCount = 30,
         [Int]$RetryIntervalSec = 30
     )
     

@@ -6,7 +6,8 @@ Test-DscConfiguration -Detailed | select -ExpandProperty ResourcesInDesiredState
 
 Get-DscResource
 
-Get-DscConfigurationStatus -All
+Get-DscConfigurationStatus -All | select Status, Error, ResourcesNotInDesiredState, ResourcesInDesiredState
+
 
 Get-DscLocalConfigurationManager
 
