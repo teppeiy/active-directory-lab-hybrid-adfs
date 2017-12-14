@@ -168,6 +168,31 @@
       },
       "resources": [
         {
+          "name": "DeployAD-Prerequisite",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adVMName')))]"
+          ],
+          "tags": {
+            "displayName": "DeployAD-Prerequisite"
+          },
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "forceUpdateTag": "1.0.1",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": false,
+            "settings": {
+              "fileUris": [
+                "[variables('DeployADTemplateUri')]"
+              ],
+              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"              
+            }
+          }
+        },
+        {
           "name": "DeployAD",
           "type": "extensions",
           "location": "[resourceGroup().location]",
