@@ -43,16 +43,12 @@ configuration DomainController
     $ClearPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
     $ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
 
-    Import-DscResource -ModuleName xPowerShellExecutionPolicy, xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
+    Import-DscResource -ModuleName xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
 
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($Admincreds.UserName)", $Admincreds.Password)
     
     Node 'localhost'
     {
-        xPowerShellExecutionPolicy ExecutionPolicy
-        {
-            ExecutionPolicy = 'RemoteSigned'
-        }
         LocalConfigurationManager {
             DebugMode          = 'All'
             RebootNodeIfNeeded = $true
@@ -76,12 +72,12 @@ configuration DomainController
 
         xSmbShare SrcShare
         {
-            Ensure = "Present"
-            Name = "src"
-            Path = "C:\src"
-            FullAccess = @("Domain Admins","Domain Computers")
+            Ensure     = "Present"
+            Name       = "src"
+            Path       = "C:\src"
+            FullAccess = @("Domain Admins", "Domain Computers")
             ReadAccess = "Authenticated Users"
-            DependsOn = "[File]SrcFolder"
+            DependsOn  = "[File]SrcFolder"
         }
 
         xADCSCertificationAuthority ADCS

@@ -12,16 +12,12 @@ Configuration Main
     $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
     $shortDomain = $wmiDomain.DomainName
 
-    Import-DscResource -ModuleName PSDesiredStateConfiguration, xPowerShellExecutionPolicy
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
 
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($AdminCreds.UserName)", $AdminCreds.Password)
         
     Node localhost
     {
-        xPowerShellExecutionPolicy ExecutionPolicy
-        {
-            ExecutionPolicy = 'RemoteSigned'
-        }
         LocalConfigurationManager            
         {            
             DebugMode = 'All'
