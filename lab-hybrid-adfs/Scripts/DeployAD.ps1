@@ -14,6 +14,8 @@ param (
     #"allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
 )
 
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
+
 #$ErrorActionPreference = "Stop"
 $ErrorActionPreference = "Continue"
 

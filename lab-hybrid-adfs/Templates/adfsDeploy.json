@@ -258,6 +258,28 @@
         }
       },
       "resources": [
+        {
+          "name": "Pre-Script",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adfsVMName'), copyIndex(1)))]"
+          ],
+          "tags": {
+            "displayName": "Pre-Script"
+          },
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "forceUpdateTag": "1.0.1",
+            "typeHandlerVersion": "1.4",
+            "autoUpgradeMinorVersion": false,
+            "settings": {
+              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"              
+            }
+          }
+        }
       ]
     },
     {
