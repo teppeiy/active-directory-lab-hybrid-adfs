@@ -304,7 +304,7 @@
         "settings": {
           "Name": "[parameters('adDomainName')]",
           "OUPath": "",
-          "User": "[concat(variables('shortDomainName'), '\\', parameters('adminUsername'))]",
+          "User": "[concat(variables('shortDomainName'), '\\', parameters('adminUsername') )]",
           "Restart": "true",
           "Options": "[variables('domainJoinOptions')]"
         },
