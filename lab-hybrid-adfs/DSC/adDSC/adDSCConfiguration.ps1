@@ -218,6 +218,7 @@ configuration DomainController
             }
         }
 
+		<#
         Script CreateOU {
             SetScript  = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
@@ -280,12 +281,13 @@ configuration DomainController
             }
             DependsOn  = '[Script]CreateOU'
         }
+		#>
 		
         #using service credentials for ADFS for now
         Script AddTools {
             SetScript  = {
                 # Install AAD Tools
-                md c:\temp -ErrorAction Ignore
+                #md c:\temp -ErrorAction Ignore
                 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
                 #Install-Module -Name Azure -AllowClobber -Force
@@ -306,7 +308,7 @@ configuration DomainController
             #Credential = $DomainCreds
             #PsDscRunAsCredential = $DomainCreds
 
-            DependsOn  = '[xADCSWebEnrollment]CertSrv'
+            #DependsOn  = '[xADCSWebEnrollment]CertSrv'
         }
 		
 
@@ -553,6 +555,7 @@ configuration DomainController2k8r2
             }
         }
 
+		<#
         Script CreateOU {
             SetScript  = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
@@ -616,11 +619,13 @@ configuration DomainController2k8r2
             DependsOn  = '[Script]CreateOU'
         }
 		
+		#>
         #using service credentials for ADFS for now
         Script AddTools {
             SetScript  = {
                 # Install AAD Tools
                 #md c:\temp -ErrorAction Ignore
+
                 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
                 #Install-Module -Name Azure -AllowClobber -Force
