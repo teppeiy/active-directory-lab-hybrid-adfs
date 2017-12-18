@@ -378,7 +378,8 @@ configuration DomainController2k8r2
     $ClearPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
     $ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
 
-    Import-DscResource -ModuleName xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
+    Import-DscResource -ModuleName  PSDesiredStateConfiguration
+#	  Import-DscResource -ModuleName xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
 
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($Admincreds.UserName)", $Admincreds.Password)
     
@@ -555,7 +556,7 @@ configuration DomainController2k8r2
             }
         }
 
-
+		<#
         Script CreateOU {
             SetScript  = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
@@ -619,6 +620,8 @@ configuration DomainController2k8r2
             DependsOn  = '[Script]CreateOU'
         }
 		
+		#>
+
 		#>
         #using service credentials for ADFS for now
         Script AddTools {
