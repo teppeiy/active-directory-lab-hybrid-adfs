@@ -1,4 +1,4 @@
-Configuration Main
+Configuration ADFS
 {
     Param 
     ( 
@@ -61,6 +61,101 @@ Configuration Main
                 return ($cert -ine $null)   #if not null (if we have the cert) return true
             }
         }
+
+        Script InstallAADConnect
+        {
+            SetScript = {
+                $AADConnectDLUrl="https://download.microsoft.com/download/B/0/0/B00291D0-5A83-4DE7-86F5-980BC00DE05A/AzureADConnect.msi"
+                $exe="$env:SystemRoot\system32\msiexec.exe"
+
+                $tempfile = [System.IO.Path]::GetTempFileName()
+                $folder = [System.IO.Path]::GetDirectoryName($tempfile)
+
+                $webclient = New-Object System.Net.WebClient
+                $webclient.DownloadFile($AADConnectDLUrl, $tempfile)
+
+                Rename-Item -Path $tempfile -NewName "AzureADConnect.msi"
+                $MSIPath = $folder + "\AzureADConnect.msi"
+
+                Invoke-Expression "& `"$exe`" /i $MSIPath /qn /passive /forcerestart"
+            }
+
+            GetScript =  { @{} }
+            TestScript = { 
+                return Test-Path "$env:TEMP\AzureADConnect.msi" 
+            }
+            DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
+        }
+    }
+}
+
+Configuration ADFS2k8r2
+{
+    Param 
+    ( 
+        [Parameter(Mandatory)]
+        [System.Management.Automation.PSCredential]$AdminCreds,
+
+        [Int]$RetryCount=20,
+        [Int]$RetryIntervalSec=30
+    )
+
+    $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
+    $shortDomain = $wmiDomain.DomainName
+
+    Import-DscResource -ModuleName PSDesiredStateConfiguration
+
+    [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($AdminCreds.UserName)", $AdminCreds.Password)
+        
+    Node localhost
+    {
+        LocalConfigurationManager            
+        {            
+            DebugMode = 'All'
+            ActionAfterReboot = 'ContinueConfiguration'            
+            ConfigurationMode = 'ApplyOnly'            
+            RebootNodeIfNeeded = $true
+        }
+		Script InstallADFS
+		{
+            SetScript = {
+				Function Download-And-InstallExe {
+					[CmdletBinding()]
+					param
+					(
+						[Parameter(Mandatory = $true)]
+						[string]
+						$uri,
+						[string]
+						$option
+					)
+					$LocalTempDir = $env:TEMP
+					$installer = (new-guid).toString() + ".exe"
+					(new-object System.Net.WebClient).DownloadFile($uri, "$LocalTempDir\$installer"); & "$LocalTempDir\$installer" $option; $Process2Monitor = "installer"; Do { $ProcessesFound = Get-Process | ? {$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else {  } } Until (!$ProcessesFound)
+				}
+
+				$uri = "https://download.microsoft.com/download/F/3/D/F3D66A7E-C974-4A60-B7A5-382A61EB7BC6/RTW/W2K8R2/amd64/AdfsSetup.exe"
+				$option = "/quiet"
+				Download-And-InstallExe $uri $option
+            }
+
+            GetScript =  { @{} }
+            TestScript = { 
+                return Test-Path "$LocalTempDir\$installer" 
+            }
+		}
+
+		Script ConfigureADFS{
+			SetScript = {
+				# Run setup wizard
+				& "$env:ProgramFiles\Active Directory Federation Services 2.0\fsconfig.exe" CreateFarm /ServiceAccount "teppeiy.local\adfs_svc" /ServiceAccountPassword "P@ssw0rd!" /AutoCertRolloverEnabled
+			}
+			GetScript =  { @{} }
+			TestScript = { 
+				return Test-Path "$LocalTempDir\$installer" 
+			}
+			DependsOn  = '[Script]InstallADFS'
+		}
 
         Script InstallAADConnect
         {

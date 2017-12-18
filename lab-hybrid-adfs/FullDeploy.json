@@ -139,15 +139,15 @@
       "defaultValue": "2012-R2-Datacenter",
       "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
     },
-    "adfsDSCConfigurationFunction": {
-      "type": "string",
-      "defaultValue": "adfsDSCConfiguration.ps1\\Main",
-      "metadata": { "description": "ADFS DSC Configuration function" }
-    },
     "adDSCConfigurationFunction": {
       "type": "string",
       "defaultValue": "DomainController",
       "metadata": { "description": "Default: DomainController, DomainController2k8r2 for 2008R2 deployment" }
+    },
+    "adfsDSCConfigurationFunction": {
+      "type": "string",
+      "defaultValue": "ADFS",
+      "metadata": { "description": "Default: ADFS, ADFS2k8r2 for 2008R2 deployment" }
     }
   },
   "variables": {
@@ -190,6 +190,8 @@
     "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/CopyCertToWAP.ps1')]",
     "adDSCConfigurationScript": "adDSCConfiguration.ps1",
     "adDSCConfigurationFunction": "[parameters('adDSCConfigurationFunction')]",
+    "adfsDSCConfigurationScript": "adfsDSCConfiguration.ps1",
+    "adfsDSCConfigurationFunction": "[parameters('adfsDSCConfigurationFunction')]",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -220,7 +222,6 @@
       }
     ],
     "adfsDSCTemplate": "[concat(parameters('assetLocation'),'DSC/adfsDSC.zip')]",
-    "adfsDSCConfigurationFunction": "adfsDSCConfiguration.ps1\\Main",
     "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
     "WAPPubIpDnsFQDN": "[concat(variables('publicIPAddressDNSName'),'{0}.', toLower(replace(resourceGroup().location,' ','')),'.cloudapp.azure.com')]"
   },
@@ -400,27 +401,63 @@
         "type": "DSC",
         "typeHandlerVersion": "2.21",
         "autoUpgradeMinorVersion": true,
-        "forceUpdateTag": "1.01",
+        "forceUpdateTag": "1.02",
         "settings": {
-          "modulesUrl": "[variables('adfsDSCTemplate')]",
-          "configurationFunction": "[variables('adfsDSCConfigurationFunction')]",
-          "properties": [
-            {
-              "Name": "AdminCreds",
-              "Value": {
-                "UserName": "[parameters('adminUsername')]",
-                "Password": "PrivateSettingsRef:AdminPassword"
-              },
-              "TypeName": "System.Management.Automation.PSCredential"
-            }
-          ]
+          "configuration": {
+            "url": "[variables('adDSCTemplate')]",
+            "script": "[variables('adfsDSCConfigurationScript')]",
+            "function": "[variables('adfsDSCConfigurationFunction')]"
+          },
+          "configurationArguments": {
+            "ADFSFarmCount": "[parameters('AdfsFarmCount')]",
+            "ADFSIPAddress": "[parameters('adfsIP')]",
+            "Subject": "[variables('WAPPubIpDnsFQDN')]",
+            "usersArray": "[parameters('usersArray')]"
+          }
         },
         "protectedSettings": {
-          "Items": {
-            "AdminPassword": "[parameters('adminPassword')]"
+          "configurationArguments": {
+            "AdminCreds": {
+              "UserName": "[parameters('adminUsername')]",
+              "Password": "[parameters('adminPassword')]"
+            }
+          }
+        },
+
+        "properties": {
+          "publisher": "Microsoft.Powershell",
+          "type": "DSC",
+          "typeHandlerVersion": "2.21",
+          "forceUpdateTag": "1.02",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "configuration": {
+              "url": "[variables('adDSCTemplate')]",
+              "script": "[variables('adDSCConfigurationScript')]",
+              "function": "[variables('adDSCConfigurationFunction')]"
+            },
+            "configurationArguments": {
+              "ADFSFarmCount": "[parameters('AdfsFarmCount')]",
+              "ADFSIPAddress": "[parameters('adfsIP')]",
+              "Subject": "[variables('WAPPubIpDnsFQDN')]",
+              "usersArray": "[parameters('usersArray')]"
+            }
+          },
+          "protectedSettings": {
+            "configurationArguments": {
+              "AdminCreds": {
+                "UserName": "[parameters('adminUsername')]",
+                "Password": "[parameters('adminPassword')]"
+              },
+              "UserCreds": {
+                "UserName": "user",
+                "Password": "[parameters('defaultUserPassword')]"
+              }
+            }
           }
         }
-      }
+      },
+
     },
     {
       "name": "[concat(variables('adfsVMName'), copyIndex(1),'/InstallADFS')]",
