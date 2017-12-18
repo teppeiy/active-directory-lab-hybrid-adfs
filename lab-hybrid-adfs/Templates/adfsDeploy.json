@@ -259,28 +259,7 @@
             "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('adfsNICName'), copyIndex(1)))]"
           }]
         }
-      },
-      "resources": [{
-        "name": "Pre-Script",
-        "type": "extensions",
-        "location": "[resourceGroup().location]",
-        "apiVersion": "2015-06-15",
-        "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adfsVMName'), copyIndex(1)))]"
-        ],
-        "tags": {
-          "displayName": "Pre-Script"
-        },
-        "properties": {
-          "publisher": "Microsoft.Compute",
-          "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.9",
-          "autoUpgradeMinorVersion": true,
-          "settings": {
-            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
-          }
-        }
-      }]
+      }
     },
     {
       "apiVersion": "[variables('apiVersion')]",
