@@ -270,11 +270,11 @@
           "properties": {
             "publisher": "Microsoft.Compute",
             "type": "CustomScriptExtension",
-            "forceUpdateTag": "1.0.1",
-            "typeHandlerVersion": "1.4",
+            "typeHandlerVersion": "2.21",
             "autoUpgradeMinorVersion": false,
+            "forceUpdateTag": "1.02",
             "settings": {
-              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"              
+              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
             }
           }
         }
@@ -299,8 +299,9 @@
       "properties": {
         "publisher": "Microsoft.Compute",
         "type": "JsonADDomainExtension",
-        "typeHandlerVersion": "1.3",
-        "autoUpgradeMinorVersion": true,
+        "typeHandlerVersion": "2.21",
+        "autoUpgradeMinorVersion": false,
+        "forceUpdateTag": "1.02",
         "settings": {
           "Name": "[parameters('adDomainName')]",
           "OUPath": "",

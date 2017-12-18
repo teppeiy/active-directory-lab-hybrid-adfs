@@ -181,14 +181,14 @@
           "properties": {
             "publisher": "Microsoft.Compute",
             "type": "CustomScriptExtension",
-            "forceUpdateTag": "1.0.1",
-            "typeHandlerVersion": "1.4",
+            "typeHandlerVersion": "2.21",
             "autoUpgradeMinorVersion": false,
+            "forceUpdateTag": "1.02",
             "settings": {
               "fileUris": [
                 "[variables('DeployADTemplateUri')]"
               ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('DeployADTemplate'), ' ', parameters('adDomainName'), ' ', parameters('adminPassword'), ' ', parameters('adDomainMode'), ' ', parameters('adForestMode'), ' ', parameters('imageSKU'))]"              
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('DeployADTemplate'), ' ', parameters('adDomainName'), ' ', parameters('adminPassword'), ' ', parameters('adDomainMode'), ' ', parameters('adForestMode'), ' ', parameters('imageSKU'))]"
             }
           }
         }
