@@ -569,12 +569,6 @@
             "url": "[variables('adfsDSCTemplate')]",
             "script": "[variables('adfsDSCConfigurationScript')]",
             "function": "[variables('adfsDSCConfigurationFunction')]"
-          },
-          "configurationArguments": {
-            "ADFSFarmCount": "[parameters('AdfsFarmCount')]",
-            "ADFSIPAddress": "[parameters('adfsIP')]",
-            "Subject": "[variables('WAPPubIpDnsFQDN')]",
-            "usersArray": "[parameters('usersArray')]"
           }
         },
         "protectedSettings": {
