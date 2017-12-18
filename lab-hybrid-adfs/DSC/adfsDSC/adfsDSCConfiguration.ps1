@@ -141,7 +141,7 @@ Configuration ADFS2k8r2
 
             GetScript =  { @{} }
             TestScript = { 
-                return Test-Path "$LocalTempDir\$installer" 
+                return Test-path "C:\Program Files\Active Directory Federation Services 2.0"
             }
 		}
 
@@ -179,7 +179,17 @@ Configuration ADFS2k8r2
             TestScript = { 
                 return Test-Path "$env:TEMP\AzureADConnect.msi" 
             }
-            DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
+            #DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
         }
     }
 }
+
+<#
+
+ADFS2.0
+https://msdn.microsoft.com/ja-jp/library/azure/dn151313.aspx
+
+Download 2008R2
+https://download.microsoft.com/download/F/3/D/F3D66A7E-C974-4A60-B7A5-382A61EB7BC6/RTW/W2K8R2/amd64/AdfsSetup.exe
+
+#>
