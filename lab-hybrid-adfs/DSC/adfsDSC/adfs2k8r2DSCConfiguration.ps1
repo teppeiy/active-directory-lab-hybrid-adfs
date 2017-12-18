@@ -36,26 +36,42 @@ Configuration Main
 		Script InstallADFS
 		{
             SetScript = {
-                $AADConnectDLUrl="https://download.microsoft.com/download/B/0/0/B00291D0-5A83-4DE7-86F5-980BC00DE05A/AzureADConnect.msi"
-                $exe="$env:SystemRoot\system32\msiexec.exe"
+				Function Download-And-InstallExe {
+					[CmdletBinding()]
+					param
+					(
+						[Parameter(Mandatory = $true)]
+						[string]
+						$uri,
+						[string]
+						$option
+					)
+					$LocalTempDir = $env:TEMP
+					$installer = (new-guid).toString() + ".exe"
+					(new-object System.Net.WebClient).DownloadFile($uri, "$LocalTempDir\$installer"); & "$LocalTempDir\$installer" $option; $Process2Monitor = "installer"; Do { $ProcessesFound = Get-Process | ? {$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else {  } } Until (!$ProcessesFound)
+				}
 
-                $tempfile = [System.IO.Path]::GetTempFileName()
-                $folder = [System.IO.Path]::GetDirectoryName($tempfile)
-
-                $webclient = New-Object System.Net.WebClient
-                $webclient.DownloadFile($AADConnectDLUrl, $tempfile)
-
-                Rename-Item -Path $tempfile -NewName "AzureADConnect.msi"
-                $MSIPath = $folder + "\AzureADConnect.msi"
-
-                Invoke-Expression "& `"$exe`" /i $MSIPath /qn /passive /forcerestart"
+				$uri = "https://download.microsoft.com/download/F/3/D/F3D66A7E-C974-4A60-B7A5-382A61EB7BC6/RTW/W2K8R2/amd64/AdfsSetup.exe"
+				$option = "/quiet"
+				Download-And-InstallExe $uri $option
             }
 
             GetScript =  { @{} }
             TestScript = { 
-                return Test-Path "$env:TEMP\AzureADConnect.msi" 
+                return Test-Path "$LocalTempDir\$installer" 
             }
-            DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
+		}
+
+		Script ConfigureADFS{
+			SetScript = {
+				# Run setup wizard
+				& "$env:ProgramFiles\Active Directory Federation Services 2.0\fsconfig.exe" CreateFarm /ServiceAccount "teppeiy.local\adfs_svc" /ServiceAccountPassword "P@ssw0rd!" /AutoCertRolloverEnabled
+			}
+			GetScript =  { @{} }
+			TestScript = { 
+				return Test-Path "$LocalTempDir\$installer" 
+			}
+			DependsOn  = '[Script]InstallADFS'
 		}
 
         Script SaveCert

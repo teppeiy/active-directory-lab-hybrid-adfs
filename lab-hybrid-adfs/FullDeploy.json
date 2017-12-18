@@ -143,6 +143,11 @@
       "type": "string",
       "defaultValue": "adfsDSCConfiguration.ps1\\Main",
       "metadata": { "description": "ADFS DSC Configuration function" }
+    },
+    "adDSCConfigurationFunction": {
+      "type": "string",
+      "defaultValue": "DomainController",
+      "metadata": { "description": "Default: DomainController, DomainController2k8r2 for 2008R2 deployment" }
     }
   },
   "variables": {
@@ -184,7 +189,7 @@
     "CopyCertToWAPTemplate": "CopyCertToWAP.ps1",
     "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/CopyCertToWAP.ps1')]",
     "adDSCConfigurationScript": "adDSCConfiguration.ps1",
-    "adDSCConfigurationFunction": "DomainController",
+    "adDSCConfigurationFunction": "[parameters('adDSCConfigurationFunction')]",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
