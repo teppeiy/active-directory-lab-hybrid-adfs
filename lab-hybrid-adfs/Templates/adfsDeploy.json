@@ -270,9 +270,8 @@
           "properties": {
             "publisher": "Microsoft.Compute",
             "type": "CustomScriptExtension",
-            "typeHandlerVersion": "2.21",
-            "autoUpgradeMinorVersion": false,
-            "forceUpdateTag": "1.02",
+            "typeHandlerVersion": "1.9",
+            "autoUpgradeMinorVersion": true,
             "settings": {
               "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
             }
