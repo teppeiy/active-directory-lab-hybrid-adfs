@@ -65,6 +65,7 @@ if (-not $elevated) {
         Write-Host "Farm configured" -Verbose
 	}
  
+	<# Moved to DSC
 	# Install AAD Tools
 	md c:\temp -ErrorAction Ignore
 	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
@@ -76,10 +77,12 @@ if (-not $elevated) {
 
 	Install-Module -Name AzureAD -Force
 
-	Install-Module -Name AzureADPreview -AllowClobber -Force
+	Install-Module -Name AzureADPreview -Force
+
+	#>
 
     # Setup Shortcuts
-	md c:\AADLab -ErrorAction Ignore
+	#md c:\AADLab -ErrorAction Ignore
 
 	$WshShell = New-Object -comObject WScript.Shell
 	$dt="C:\Users\Public\Desktop\"

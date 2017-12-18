@@ -86,6 +86,33 @@ Configuration ADFS
             }
             DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
         }
+
+		        Script AddTools {
+            SetScript  = {
+                # Install AAD Tools
+                #md c:\temp -ErrorAction Ignore
+                Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
+                #Install-Module -Name Azure -AllowClobber -Force
+                #Install-Module -Name AzureRM -AllowClobber -Force
+
+                Install-Module -Name MSOnline -Force
+
+                Install-Module -Name AzureAD -Force
+
+                Install-Module -Name AzureADPreview -Force
+            }
+
+            GetScript  = { @{} }
+            TestScript = { 
+                $key = Get-Module -Name MSOnline -ListAvailable
+                return ($key -ine $null)
+            }
+            #Credential = $DomainCreds
+            #PsDscRunAsCredential = $DomainCreds
+
+            #DependsOn  = '[xADCSWebEnrollment]CertSrv'
+        }
     }
 }
 
@@ -180,6 +207,33 @@ Configuration ADFS2k8r2
                 return Test-Path "$env:TEMP\AzureADConnect.msi" 
             }
             #DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
+        }
+
+		        Script AddTools {
+            SetScript  = {
+                # Install AAD Tools
+                #md c:\temp -ErrorAction Ignore
+                Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
+                #Install-Module -Name Azure -AllowClobber -Force
+                #Install-Module -Name AzureRM -AllowClobber -Force
+
+                Install-Module -Name MSOnline -Force
+
+                Install-Module -Name AzureAD -Force
+
+                Install-Module -Name AzureADPreview -Force
+            }
+
+            GetScript  = { @{} }
+            TestScript = { 
+                $key = Get-Module -Name MSOnline -ListAvailable
+                return ($key -ine $null)
+            }
+            #Credential = $DomainCreds
+            #PsDscRunAsCredential = $DomainCreds
+
+            #DependsOn  = '[xADCSWebEnrollment]CertSrv'
         }
     }
 }
