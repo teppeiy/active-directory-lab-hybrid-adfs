@@ -633,7 +633,7 @@ configuration DomainController2k8r2
 
                 Install-Module -Name MSOnline -Force
                 Install-Module -Name AzureAD -Force
-                Install-Module -Name AzureADPreview -AllowClobber -Force
+                Install-Module -Name AzureADPreview -Force
             }
 
             GetScript  = { @{} }
