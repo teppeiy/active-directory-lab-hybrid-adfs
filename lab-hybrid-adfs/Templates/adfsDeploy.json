@@ -90,6 +90,11 @@
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
       "metadata": { "description": "imageSKU" }
+    },
+    "adfsDSCConfigurationFunction": {
+      "type": "string",
+      "defaultValue": "adfsDSCConfiguration.ps1\\Main",
+      "metadata": { "description": "ADFS DSC Configuration function" }
     }
   },
   "variables": {
@@ -99,7 +104,7 @@
     "adfsStartIpNodeAddress": "[int(variables('adfsNetworkArr')[3])]",
     "adfsNetworkString": "[concat(variables('adfsNetworkArr')[0],'.',variables('adfsNetworkArr')[1],'.',variables('adfsNetworkArr')[2],'.')]",
     "DSCTemplate": "[concat(parameters('assetLocation'),'DSC/adfsDSC.zip')]",
-    "adfsDSCConfigurationFunction": "adfsDSCConfiguration.ps1\\Main",
+    "adfsDSCConfigurationFunction": "[parameters('adfsDSCConfigurationFunction')]",
     "adfsNICName": "[concat('adfs-',parameters('NetworkInterfaceName'),parameters('deploymentNumber'))]",
     "adfsPubIpName": "[concat('ADFSPubIP', parameters('deploymentNumber'))]",
     "adSubnetID": "[concat(variables('vnetID'),'/subnets/',parameters('adSubnetName'))]",

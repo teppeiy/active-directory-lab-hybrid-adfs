@@ -30,7 +30,7 @@
     "adDomainMode": {
       "type": "string",
       "defaultValue": "Win2012",
-      "allowedValues": ["2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2"],
+      "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
         "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2"
       }
@@ -38,7 +38,7 @@
     "adForestMode": {
       "type": "string",
       "defaultValue": "Win2012",
-      "allowedValues": ["2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2"],
+      "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
         "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2"
       }
@@ -131,13 +131,18 @@
       "type": "string",
       "metadata": { "description": "adImageSKU" },
       "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
+      "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
     },
     "adfsImageSKU": {
       "type": "string",
       "metadata": { "description": "adfsImageSKU" },
       "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
+      "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
+    },
+    "adfsDSCConfigurationFunction": {
+      "type": "string",
+      "defaultValue": "adfsDSCConfiguration.ps1\\Main",
+      "metadata": { "description": "ADFS DSC Configuration function" }
     }
   },
   "variables": {

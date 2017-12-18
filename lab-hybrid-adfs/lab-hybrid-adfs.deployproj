@@ -251,6 +251,7 @@
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\README.md" />
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\xSmbShare.psd1" />
     <None Include="DSC\adfsDSC.zip" />
+    <None Include="DSC\adfsDSC\adfs2k8r2DSCConfiguration.ps1" />
     <None Include="DSC\adfsDSC\adfsDSCConfiguration.ps1" />
     <None Include="DSC\adfsDSC\wapDSCConfiguration.ps1" />
     <None Include="DSC\adfsDSC\xComputerManagement\1.9.0.0\DSCResources\CommonResourceHelper.psm1" />
