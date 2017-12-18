@@ -1,4 +1,4 @@
-Configuration Main
+Configuration WAP
 {
     Import-DscResource -ModuleName PSDesiredStateConfiguration
 

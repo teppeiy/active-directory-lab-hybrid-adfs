@@ -555,7 +555,7 @@ configuration DomainController2k8r2
             }
         }
 
-		<#
+
         Script CreateOU {
             SetScript  = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
@@ -632,9 +632,7 @@ configuration DomainController2k8r2
                 #Install-Module -Name AzureRM -AllowClobber -Force
 
                 Install-Module -Name MSOnline -Force
-
                 Install-Module -Name AzureAD -Force
-
                 Install-Module -Name AzureADPreview -AllowClobber -Force
             }
 

@@ -139,15 +139,35 @@
       "defaultValue": "2012-R2-Datacenter",
       "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
     },
+    "adDSCConfigurationScript": {
+      "type": "string",
+      "defaultValue": "adDSCConfiguration.ps1",
+      "metadata": { "description": "Default: adDSCConfiguration.ps1" }
+    },
     "adDSCConfigurationFunction": {
       "type": "string",
       "defaultValue": "DomainController",
       "metadata": { "description": "Default: DomainController, DomainController2k8r2 for 2008R2 deployment" }
     },
+    "adfsDSCConfigurationScript": {
+      "type": "string",
+      "defaultValue": "adfsDSCConfiguration.ps1",
+      "metadata": { "description": "Default: adfsDSCConfiguration.ps1" }
+    },
     "adfsDSCConfigurationFunction": {
       "type": "string",
       "defaultValue": "ADFS",
       "metadata": { "description": "Default: ADFS, ADFS2k8r2 for 2008R2 deployment" }
+    },
+    "wapDSCConfigurationScript": {
+      "type": "string",
+      "defaultValue": "wapDSCConfiguration.ps1",
+      "metadata": { "description": "Default: wapDSCConfiguration.ps1" }
+    },
+    "wapDSCConfigurationFunction": {
+      "type": "string",
+      "defaultValue": "WAP",
+      "metadata": { "description": "Default: WAP, WAP2k8r2 for 2008R2 deployment" }
     }
   },
   "variables": {
@@ -188,10 +208,12 @@
     "DeployADFSFarmTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/InstallADFS.ps1')]",
     "CopyCertToWAPTemplate": "CopyCertToWAP.ps1",
     "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/CopyCertToWAP.ps1')]",
-    "adDSCConfigurationScript": "adDSCConfiguration.ps1",
+    "adDSCConfigurationScript": "[parameters('adDSCConfigurationScript')]",
     "adDSCConfigurationFunction": "[parameters('adDSCConfigurationFunction')]",
-    "adfsDSCConfigurationScript": "adfsDSCConfiguration.ps1",
+    "adfsDSCConfigurationScript": "[parameters('adfsDSCConfigurationScript')]",
     "adfsDSCConfigurationFunction": "[parameters('adfsDSCConfigurationFunction')]",
+    "wapDSCConfigurationScript": "[parameters('wapDSCConfigurationScript')]",
+    "wapDSCConfigurationFunction": "[parameters('wapDSCConfigurationFunction')]",
     "subnets": [
       {
         "name": "[variables('adSubnetName')]",
@@ -222,7 +244,6 @@
       }
     ],
     "adfsDSCTemplate": "[concat(parameters('assetLocation'),'DSC/adfsDSC.zip')]",
-    "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
     "WAPPubIpDnsFQDN": "[concat(variables('publicIPAddressDNSName'),'{0}.', toLower(replace(resourceGroup().location,' ','')),'.cloudapp.azure.com')]"
   },
   "resources": [
@@ -404,7 +425,7 @@
         "forceUpdateTag": "1.02",
         "settings": {
           "configuration": {
-            "url": "[variables('adDSCTemplate')]",
+            "url": "[variables('adfsDSCTemplate')]",
             "script": "[variables('adfsDSCConfigurationScript')]",
             "function": "[variables('adfsDSCConfigurationFunction')]"
           },
@@ -420,39 +441,6 @@
             "AdminCreds": {
               "UserName": "[parameters('adminUsername')]",
               "Password": "[parameters('adminPassword')]"
-            }
-          }
-        },
-
-        "properties": {
-          "publisher": "Microsoft.Powershell",
-          "type": "DSC",
-          "typeHandlerVersion": "2.21",
-          "forceUpdateTag": "1.02",
-          "autoUpgradeMinorVersion": true,
-          "settings": {
-            "configuration": {
-              "url": "[variables('adDSCTemplate')]",
-              "script": "[variables('adDSCConfigurationScript')]",
-              "function": "[variables('adDSCConfigurationFunction')]"
-            },
-            "configurationArguments": {
-              "ADFSFarmCount": "[parameters('AdfsFarmCount')]",
-              "ADFSIPAddress": "[parameters('adfsIP')]",
-              "Subject": "[variables('WAPPubIpDnsFQDN')]",
-              "usersArray": "[parameters('usersArray')]"
-            }
-          },
-          "protectedSettings": {
-            "configurationArguments": {
-              "AdminCreds": {
-                "UserName": "[parameters('adminUsername')]",
-                "Password": "[parameters('adminPassword')]"
-              },
-              "UserCreds": {
-                "UserName": "user",
-                "Password": "[parameters('defaultUserPassword')]"
-              }
             }
           }
         }
@@ -507,68 +495,70 @@
         "type": "DSC",
         "typeHandlerVersion": "2.21",
         "autoUpgradeMinorVersion": false,
+        "forceUpdateTag": "1.02",
         "settings": {
-          "modulesUrl": "[variables('adfsDSCTemplate')]",
-          "configurationFunction": "[variables('wapDSCConfigurationFunction')]",
-          "properties": []
+          "configuration": {
+            "url": "[variables('adfsDSCTemplate')]",
+            "script": "[variables('wapDSCConfigurationScript')]",
+            "function": "[variables('wapDSCConfigurationFunction')]"
+          }
         }
-      }
-    },
-    {
-      "name": "[concat(variables('wapVMName'), copyIndex(1),'/CopyCertToWAP')]",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-06-15",
-      "dependsOn": [
-        "wapDscPrepCopy",
-        "adfsFarmInstallCopy"
-      ],
-      "copy": {
-        "name": "wapCertCopyCopy",
-        "count": "[variables('adfsDeployCount')]"
       },
-      "tags": {
-        "displayName": "ConfigureWAP"
+      {
+        "name": "[concat(variables('wapVMName'), copyIndex(1),'/CopyCertToWAP')]",
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2015-06-15",
+        "dependsOn": [
+          "wapDscPrepCopy",
+          "adfsFarmInstallCopy"
+        ],
+        "copy": {
+          "name": "wapCertCopyCopy",
+          "count": "[variables('adfsDeployCount')]"
+        },
+        "tags": {
+          "displayName": "ConfigureWAP"
+        },
+        "properties": {
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.4",
+          "autoUpgradeMinorVersion": false,
+          "settings": {
+            "fileUris": [
+              "[variables('CopyCertToWAPTemplateUri')]"
+            ],
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'), ' -instance ', copyIndex(1), ' -WapFqdn ', variables('WAPPubIpDnsFQDN'))]"
+          }
+        }
       },
-      "properties": {
-        "publisher": "Microsoft.Compute",
-        "type": "CustomScriptExtension",
-        "typeHandlerVersion": "1.4",
-        "autoUpgradeMinorVersion": false,
-        "settings": {
-          "fileUris": [
-            "[variables('CopyCertToWAPTemplateUri')]"
-          ],
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'), ' -instance ', copyIndex(1), ' -WapFqdn ', variables('WAPPubIpDnsFQDN'))]"
+      {
+        "name": "clientVMs",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2015-01-01",
+        "dependsOn": [
+          "virtualNetworkDNSUpdate"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": { "uri": "[variables('clientTemplateURI')]" },
+          "parameters": {
+            "adminPassword": { "value": "[parameters('adminPassword')]" },
+            "adminUsername": { "value": "[parameters('adminUsername')]" },
+            "deploymentNumber": { "value": "[parameters('deploymentNumber')]" },
+            "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+            "cliSubnetName": { "value": "[variables('cliSubnetName')]" },
+            "adDomainName": { "value": "[parameters('adDomainName')]" },
+            "clientImageBaseResource": { "value": "[parameters('clientImageBaseResource')]" },
+            "clientsToDeploy": { "value": "[parameters('clientsToDeploy')]" },
+            "vmSize": { "value": "[parameters('vmSize')]" },
+            "assetLocation": { "value": "[parameters('assetLocation')]" }
+          }
         }
-      }
-    },
-    {
-      "name": "clientVMs",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "virtualNetworkDNSUpdate"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": { "uri": "[variables('clientTemplateURI')]" },
-        "parameters": {
-          "adminPassword": { "value": "[parameters('adminPassword')]" },
-          "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "deploymentNumber": { "value": "[parameters('deploymentNumber')]" },
-          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
-          "cliSubnetName": { "value": "[variables('cliSubnetName')]" },
-          "adDomainName": { "value": "[parameters('adDomainName')]" },
-          "clientImageBaseResource": { "value": "[parameters('clientImageBaseResource')]" },
-          "clientsToDeploy": { "value": "[parameters('clientsToDeploy')]" },
-          "vmSize": { "value": "[parameters('vmSize')]" },
-          "assetLocation": { "value": "[parameters('assetLocation')]" }
-        }
+      },
+
+      "outputs": {
+
       }
     }
-  ],
-  "outputs": {
-    
-  }
-}
