@@ -63,7 +63,6 @@ Configuration WAP2k8r2
             Ensure = "Present"
             Name = "Web-Application-Proxy"
         }
-		#>
 
         WindowsFeature Tools 
         {
@@ -71,6 +70,7 @@ Configuration WAP2k8r2
             Name = "RSAT-RemoteAccess"
             IncludeAllSubFeature = $true
         }
+		#>
 
         WindowsFeature MoreTools 
         {

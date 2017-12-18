@@ -78,18 +78,18 @@ $TemplateParameterFile = "C:\Users\teppeiy\source\repos\active-directory-lab-hyb
 
 
 # Win2012 - 
-$deploymentNumber = 4
+$deploymentNumber = 7
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
 	-deploymentNumber $deploymentNumber -adImageSKU "2012-R2-Datacenter" -adfsImageSKU "2012-R2-Datacenter" -adDomainMode "Win2012" -adForestMode "Win2012" -Verbose
 
 # Win2008R2
-$deploymentNumber = 3
+$deploymentNumber = 6
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
-	-deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -adDSCConfigurationFunction "DomainController2k8r2" -adfsDSCConfigurationFunction "ADFS2k8r2" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
+	-deploymentNumber $deploymentNumber -adImageSKU "2008-R2-SP1" -adfsImageSKU "2008-R2-SP1" -adDSCConfigurationFunction "DomainController2k8r2" -adfsDSCConfigurationFunction "ADFS2k8r2" -wapDSCConfigurationFunction "WAP2k8r2" -adDomainMode "Win2008R2" -adForestMode "Win2008R2" -Verbose
 
 
 
