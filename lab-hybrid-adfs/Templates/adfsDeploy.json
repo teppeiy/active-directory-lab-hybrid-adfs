@@ -16,7 +16,9 @@
     },
     "adfsIP": {
       "type": "string",
-      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail.s" },
+      "metadata": {
+        "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail.s"
+      },
       "defaultValue": "10.0.1.5"
     },
     "adDomainName": {
@@ -83,13 +85,17 @@
     "AdfsFarmCount": {
       "type": "string",
       "defaultValue": "1",
-      "allowedValues": [ "1", "2", "3", "4", "5" ],
-      "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing." }
+      "allowedValues": ["1", "2", "3", "4", "5"],
+      "metadata": {
+        "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing."
+      }
     },
     "imageSKU": {
       "type": "string",
       "defaultValue": "2012-R2-Datacenter",
-      "metadata": { "description": "imageSKU" }
+      "metadata": {
+        "description": "imageSKU"
+      }
     }
   },
   "variables": {
@@ -113,8 +119,7 @@
     "wapNICName": "[concat('wap-',parameters('NetworkInterfaceName'),parameters('deploymentNumber'))]",
     "wapPubIpName": "[concat('WAPPubIP', parameters('deploymentNumber'))]"
   },
-  "resources": [
-    {
+  "resources": [{
       "name": "[concat(variables('adfsPubIpName'), copyIndex(1))]",
       "type": "Microsoft.Network/publicIPAddresses",
       "location": "[parameters('location')]",
@@ -161,26 +166,26 @@
         "name": "adfsNicCopy",
         "count": "[variables('adfsDeployCount')]"
       },
-      "tags": { "displayName": "adfsNIC" },
+      "tags": {
+        "displayName": "adfsNIC"
+      },
       "dependsOn": [
         "adfsIpCopy"
       ],
       "properties": {
-        "ipConfigurations": [
-          {
-            "name": "[concat('adfsipconfig', parameters('deploymentNumber'), copyIndex(1))]",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat(variables('adfsNetworkString'), add(copyIndex(),variables('adfsStartIpNodeAddress')))]",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('adfsPubIpName'), copyIndex(1)))]"
-              },
-              "subnet": {
-                "id": "[variables('adSubnetID')]"
-              }
+        "ipConfigurations": [{
+          "name": "[concat('adfsipconfig', parameters('deploymentNumber'), copyIndex(1))]",
+          "properties": {
+            "privateIPAllocationMethod": "Static",
+            "privateIPAddress": "[concat(variables('adfsNetworkString'), add(copyIndex(),variables('adfsStartIpNodeAddress')))]",
+            "publicIPAddress": {
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('adfsPubIpName'), copyIndex(1)))]"
+            },
+            "subnet": {
+              "id": "[variables('adSubnetID')]"
             }
           }
-        ]
+        }]
       }
     },
     {
@@ -192,25 +197,25 @@
         "name": "wapNicCopy",
         "count": "[variables('adfsDeployCount')]"
       },
-      "tags": { "displayName": "wapNIC" },
+      "tags": {
+        "displayName": "wapNIC"
+      },
       "dependsOn": [
         "wapIpCopy"
       ],
       "properties": {
-        "ipConfigurations": [
-          {
-            "name": "[concat('wapipconfig', parameters('deploymentNumber'), '-', copyIndex(1))]",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('wapPubIpName'), copyIndex(1)))]"
-              },
-              "subnet": {
-                "id": "[variables('dmzSubnetId')]"
-              }
+        "ipConfigurations": [{
+          "name": "[concat('wapipconfig', parameters('deploymentNumber'), '-', copyIndex(1))]",
+          "properties": {
+            "privateIPAllocationMethod": "Dynamic",
+            "publicIPAddress": {
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('wapPubIpName'), copyIndex(1)))]"
+            },
+            "subnet": {
+              "id": "[variables('dmzSubnetId')]"
             }
           }
-        ]
+        }]
       }
     },
     {
@@ -222,7 +227,9 @@
         "name": "adfsVmCopy",
         "count": "[variables('adfsDeployCount')]"
       },
-      "tags": { "displayName": "adfsVM" },
+      "tags": {
+        "displayName": "adfsVM"
+      },
       "dependsOn": [
         "adfsNicCopy"
       ],
@@ -248,36 +255,32 @@
           }
         },
         "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('adfsNICName'), copyIndex(1)))]"
-            }
-          ]
+          "networkInterfaces": [{
+            "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('adfsNICName'), copyIndex(1)))]"
+          }]
         }
       },
-      "resources": [
-        {
-          "name": "Pre-Script",
-          "type": "extensions",
-          "location": "[resourceGroup().location]",
-          "apiVersion": "2015-06-15",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adfsVMName'), copyIndex(1)))]"
-          ],
-          "tags": {
-            "displayName": "Pre-Script"
-          },
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.9",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
-            }
+      "resources": [{
+        "name": "Pre-Script",
+        "type": "extensions",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2015-06-15",
+        "dependsOn": [
+          "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adfsVMName'), copyIndex(1)))]"
+        ],
+        "tags": {
+          "displayName": "Pre-Script"
+        },
+        "properties": {
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.9",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
           }
         }
-      ]
+      }]
     },
     {
       "apiVersion": "[variables('apiVersion')]",
@@ -298,9 +301,8 @@
       "properties": {
         "publisher": "Microsoft.Compute",
         "type": "JsonADDomainExtension",
-        "typeHandlerVersion": "2.21",
-        "autoUpgradeMinorVersion": false,
-        "forceUpdateTag": "1.02",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
         "settings": {
           "Name": "[parameters('adDomainName')]",
           "OUPath": "",
@@ -322,7 +324,9 @@
         "name": "wapVmCopy",
         "count": "[variables('adfsDeployCount')]"
       },
-      "tags": { "displayName": "wapVM" },
+      "tags": {
+        "displayName": "wapVM"
+      },
       "dependsOn": [
         "wapNicCopy"
       ],
@@ -348,15 +352,12 @@
           }
         },
         "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('wapNICName'), copyIndex(1)))]"
-            }
-          ]
+          "networkInterfaces": [{
+            "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('wapNICName'), copyIndex(1)))]"
+          }]
         }
       }
     }
   ],
-  "outputs": {
-  }
+  "outputs": {}
 }
