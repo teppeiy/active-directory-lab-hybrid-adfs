@@ -19,7 +19,7 @@
     "deploymentNumber": {
       "type": "string",
       "defaultValue": "1",
-      "allowedValues": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "allowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
       "metadata": {
         "description": "When deploying the stack N times simultaneously, define the instance - this will be appended to some resource names to avoid collisions."
       }
@@ -40,7 +40,7 @@
     "adDomainMode": {
       "type": "string",
       "defaultValue": "Win2012",
-      "allowedValues": ["2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2"],
+      "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
         "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2"
       }
@@ -48,14 +48,15 @@
     "adForestMode": {
       "type": "string",
       "defaultValue": "Win2012",
-      "allowedValues": ["2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2"],
+      "allowedValues": [ "2", "Win2003", "3", "Win2008", "4", "Win2008R2", "5", "Win2012", "6", "Win2012R2" ],
       "metadata": {
         "desctiption": "Windows Server 2003: 2 or Win2003 , Windows Server 2008: 3 or Win2008, Windows Server 2008 R2: 4 or Win2008R2, Windows Server 2012: Win2012, Windows Server 2012 R2: 6 or Win2012R2"
       }
     },
     "usersArray": {
       "type": "array",
-      "defaultValue": [{
+      "defaultValue": [
+        {
           "FName": "Bob",
           "LName": "Jones",
           "SAM": "bjones"
@@ -89,7 +90,7 @@
     "AdfsFarmCount": {
       "type": "string",
       "defaultValue": "1",
-      "allowedValues": ["1", "2", "3", "4", "5"],
+      "allowedValues": [ "1", "2", "3", "4", "5" ],
       "metadata": {
         "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing."
       }
@@ -97,7 +98,7 @@
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_D2_v2",
-      "allowedValues": ["Standard_A1_v2", "Standard_A2_v2", "Standard_A4_v2", "Standard_A2M_v2", "Standard_A4M_v2", "Standard_A4_v2", "Standard_D2_v2", "Standard_D3_v2", "Standard_D11_v2", "Standard_D12_v2"],
+      "allowedValues": [ "Standard_A1_v2", "Standard_A2_v2", "Standard_A4_v2", "Standard_A2M_v2", "Standard_A4M_v2", "Standard_A4_v2", "Standard_D2_v2", "Standard_D3_v2", "Standard_D11_v2", "Standard_D12_v2" ],
       "metadata": {
         "description": "Select a VM SKU (please ensure the SKU is available in your selected region)."
       }
@@ -149,7 +150,7 @@
       "metadata": {
         "description": "ClientsToDeploy, array, possible values: 7, 8, 10-1511, 10-1607, 10-1703. Examples: Single Win7 VM = [\"7\"]. Two Win7, one Win10 Creators = [\"7\", \"7\", \"10-1703\"]."
       },
-      "defaultValue": ["10"]
+      "defaultValue": [ "10" ]
     },
     "clientImageBaseResource": {
       "type": "string",
@@ -164,7 +165,7 @@
         "description": "adImageSKU"
       },
       "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
+      "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
     },
     "adfsImageSKU": {
       "type": "string",
@@ -172,7 +173,7 @@
         "description": "adfsImageSKU"
       },
       "defaultValue": "2012-R2-Datacenter",
-      "allowedValues": ["2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1"]
+      "allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
     },
     "adDSCConfigurationScript": {
       "type": "string",
@@ -261,7 +262,8 @@
     "adfsDSCConfigurationFunction": "[parameters('adfsDSCConfigurationFunction')]",
     "wapDSCConfigurationScript": "[parameters('wapDSCConfigurationScript')]",
     "wapDSCConfigurationFunction": "[parameters('wapDSCConfigurationFunction')]",
-    "subnets": [{
+    "subnets": [
+      {
         "name": "[variables('adSubnetName')]",
         "properties": {
           "addressprefix": "[parameters('adSubnetAddressRange')]",
@@ -292,7 +294,8 @@
     "adfsDSCTemplate": "[concat(parameters('assetLocation'),'DSC/adfsDSC.zip')]",
     "WAPPubIpDnsFQDN": "[concat(variables('publicIPAddressDNSName'),'{0}.', toLower(replace(resourceGroup().location,' ','')),'.cloudapp.azure.com')]"
   },
-  "resources": [{
+  "resources": [
+    {
       "name": "virtualNetwork",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
@@ -664,7 +667,7 @@
           "fileUris": [
             "[variables('CopyCertToWAPTemplateUri')]"
           ],
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'), ' -instance ', copyIndex(1), ' -WapFqdn ', variables('WAPPubIpDnsFQDN'))]"
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'), ' -instance ', copyIndex(1), ' -WapFqdn ', variables('WAPPubIpDnsFQDN'), ' -adfsImageSKU ', parameters('adfsImageSKU'))]"
         }
       }
     },

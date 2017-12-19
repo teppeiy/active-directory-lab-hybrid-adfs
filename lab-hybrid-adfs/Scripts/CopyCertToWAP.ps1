@@ -12,7 +12,11 @@
 	[int]$instance,
 
 	[Parameter(Mandatory)]
-	[string]$WapFqdn
+	[string]$WapFqdn,
+
+	[Parameter(Mandatory)]
+    [string]$adfsImageSKU
+    #"allowedValues": [ "2016-Datacenter", "2012-R2-Datacenter", "2008-R2-SP1" ]
 )
 
 $ErrorActionPreference = "Stop"
@@ -28,6 +32,10 @@ $completeFile="c:\temp\prereqsComplete"
 md "c:\temp" -ErrorAction Ignore
 md "c:\AADLab" -ErrorAction Ignore
 
+$log = "c:\temp\CopyCertToWAP.log"
+New-Item -ItemType File $log
+
+
 if (!(Test-Path -Path "$($completeFile)0")) {
     $PathToCert="\\$DCFQDN\src"
     net use "\\$DCFQDN\src" $password /USER:$adminuser
@@ -38,6 +46,13 @@ if (!(Test-Path -Path "$($completeFile)0")) {
 }
 
 if (!(Test-Path -Path "$($completeFile)1")) {
+
+	    if ($adfsImageSKU -eq "2008-R2-SP1") {
+        # Win2008R2
+        "In 2008-R2-SP1 path: $adfsImageSKU" >> $log
+			}
+	else{
+		        # Win2012 or above
 	#install root cert
     $RootFile  = Get-ChildItem -Path "c:\temp\*.cer"
     $RootPath  = $RootFile.FullName
@@ -59,12 +74,18 @@ if (!(Test-Path -Path "$($completeFile)1")) {
         -FederationServiceTrustCredential $DomainCreds `
         -CertificateThumbprint $cert.Thumbprint`
         -FederationServiceName $Subject
-
+		}
     #record that we got this far
     New-Item -ItemType file "$($completeFile)1"
 }
 
 if (!(Test-Path -Path "$($completeFile)2")) {
+
+		    if ($adfsImageSKU -eq "2008-R2-SP1") {
+        # Win2008R2
+        "In 2008-R2-SP1 path: $adfsImageSKU" >> $log
+			}
+	else{
 	$Subject = $WapFqdn -f $instance
 	$str = @"
 #https://blogs.technet.microsoft.com/rmilne/2015/04/20/adfs-2012-r2-web-application-proxy-re-establish-proxy-trust/
@@ -85,6 +106,7 @@ Start-Service -Name appproxysvc
 	$scriptBlock = [Scriptblock]::Create($str)
 	$scriptBlock.ToString() | out-file C:\AADLab\resetWAPTrust.ps1
 
+		}
     #record that we got this far
     New-Item -ItemType file "$($completeFile)2"
 }

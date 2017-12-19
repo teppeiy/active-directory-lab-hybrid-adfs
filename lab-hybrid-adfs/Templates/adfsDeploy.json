@@ -85,7 +85,7 @@
     "AdfsFarmCount": {
       "type": "string",
       "defaultValue": "1",
-      "allowedValues": ["1", "2", "3", "4", "5"],
+      "allowedValues": [ "1", "2", "3", "4", "5" ],
       "metadata": {
         "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing."
       }
@@ -119,7 +119,8 @@
     "wapNICName": "[concat('wap-',parameters('NetworkInterfaceName'),parameters('deploymentNumber'))]",
     "wapPubIpName": "[concat('WAPPubIP', parameters('deploymentNumber'))]"
   },
-  "resources": [{
+  "resources": [
+    {
       "name": "[concat(variables('adfsPubIpName'), copyIndex(1))]",
       "type": "Microsoft.Network/publicIPAddresses",
       "location": "[parameters('location')]",
@@ -173,19 +174,21 @@
         "adfsIpCopy"
       ],
       "properties": {
-        "ipConfigurations": [{
-          "name": "[concat('adfsipconfig', parameters('deploymentNumber'), copyIndex(1))]",
-          "properties": {
-            "privateIPAllocationMethod": "Static",
-            "privateIPAddress": "[concat(variables('adfsNetworkString'), add(copyIndex(),variables('adfsStartIpNodeAddress')))]",
-            "publicIPAddress": {
-              "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('adfsPubIpName'), copyIndex(1)))]"
-            },
-            "subnet": {
-              "id": "[variables('adSubnetID')]"
+        "ipConfigurations": [
+          {
+            "name": "[concat('adfsipconfig', parameters('deploymentNumber'), copyIndex(1))]",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[concat(variables('adfsNetworkString'), add(copyIndex(),variables('adfsStartIpNodeAddress')))]",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('adfsPubIpName'), copyIndex(1)))]"
+              },
+              "subnet": {
+                "id": "[variables('adSubnetID')]"
+              }
             }
           }
-        }]
+        ]
       }
     },
     {
@@ -204,18 +207,20 @@
         "wapIpCopy"
       ],
       "properties": {
-        "ipConfigurations": [{
-          "name": "[concat('wapipconfig', parameters('deploymentNumber'), '-', copyIndex(1))]",
-          "properties": {
-            "privateIPAllocationMethod": "Dynamic",
-            "publicIPAddress": {
-              "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('wapPubIpName'), copyIndex(1)))]"
-            },
-            "subnet": {
-              "id": "[variables('dmzSubnetId')]"
+        "ipConfigurations": [
+          {
+            "name": "[concat('wapipconfig', parameters('deploymentNumber'), '-', copyIndex(1))]",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(variables('wapPubIpName'), copyIndex(1)))]"
+              },
+              "subnet": {
+                "id": "[variables('dmzSubnetId')]"
+              }
             }
           }
-        }]
+        ]
       }
     },
     {
@@ -255,9 +260,11 @@
           }
         },
         "networkProfile": {
-          "networkInterfaces": [{
-            "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('adfsNICName'), copyIndex(1)))]"
-          }]
+          "networkInterfaces": [
+            {
+              "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('adfsNICName'), copyIndex(1)))]"
+            }
+          ]
         }
       }
     },
@@ -331,9 +338,11 @@
           }
         },
         "networkProfile": {
-          "networkInterfaces": [{
-            "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('wapNICName'), copyIndex(1)))]"
-          }]
+          "networkInterfaces": [
+            {
+              "id": "[resourceid('Microsoft.Network/networkInterfaces', concat(variables('wapNICName'), copyIndex(1)))]"
+            }
+          ]
         }
       }
     }
