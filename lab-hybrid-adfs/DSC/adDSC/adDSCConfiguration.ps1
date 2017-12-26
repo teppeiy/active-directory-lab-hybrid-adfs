@@ -35,7 +35,7 @@ configuration DomainController
 
     # xADOrganizationalUnit Configuration
     $OUName = "OrgUsers"
-    $OUPath = "DC=teppeiy,DC=local"
+    $OUPath = ("DC={0},DC={1}" -f $_.OU, ($DomainName -split '\.')[0], ($DomainName -split '\.')[1])
     $ProtectedFromAccidentalDeletion = $true
 
     # NOTE: see adfsDeploy.json variable block to see how the internal IP is constructed 
