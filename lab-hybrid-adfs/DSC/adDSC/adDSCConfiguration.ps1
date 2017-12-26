@@ -59,20 +59,19 @@ configuration DomainController
             RebootNodeIfNeeded = $true
         }
 
-        WindowsFeature ADDSInstall
-        {
+        WindowsFeature ADDSInstall {
             Ensure = "Present"
-            Name = "AD-Domain-Services"
+            Name   = "AD-Domain-Services"
         }
         
         xADOrganizationalUnit CreateOU
         {
-           Name = $OUName
-           Path = $OUPath
-           ProtectedFromAccidentalDeletion = $ProtectedFromAccidentalDeletion
-           Description = 'User OU'
-           Ensure = 'Present'
-           DependsOn  = '[WindowsFeature]ADDSInstall' 
+            Name                            = $OUName
+            Path                            = $OUPath
+            ProtectedFromAccidentalDeletion = $ProtectedFromAccidentalDeletion
+            Description                     = 'User OU'
+            Ensure                          = 'Present'
+            DependsOn                       = '[WindowsFeature]ADDSInstall' 
         }
 
         WindowsFeature ADCS-Cert-Authority {
@@ -232,15 +231,13 @@ configuration DomainController
 
                 Invoke-Expression "& `"$exe`" /i $MSIPath /qn /passive /forcerestart"
             }
-
             GetScript  = { @{} }
             TestScript = { 
                 return Test-Path "$env:TEMP\AzureADConnect.msi" 
             }
-            msiexec.exe /x ProductCode
         }
 
-		<#
+        <#
         Script CreateOU {
             SetScript  = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
@@ -401,7 +398,7 @@ configuration DomainController2k8r2
     $ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
 
     Import-DscResource -ModuleName  PSDesiredStateConfiguration
-#	  Import-DscResource -ModuleName xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
+    #	  Import-DscResource -ModuleName xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
 
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($Admincreds.UserName)", $Admincreds.Password)
     
@@ -412,7 +409,7 @@ configuration DomainController2k8r2
             RebootNodeIfNeeded = $true
         }
 
-		<#
+        <#
         WindowsFeature ADCS-Cert-Authority {
             Ensure = 'Present'
             Name   = 'ADCS-Cert-Authority'
@@ -578,7 +575,7 @@ configuration DomainController2k8r2
             }
         }
 
-		<#
+        <#
         Script CreateOU {
             SetScript  = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
@@ -644,7 +641,7 @@ configuration DomainController2k8r2
 		
 		#>
 
-		#>
+        #>
         #using service credentials for ADFS for now
         Script AddTools {
             SetScript  = {
@@ -669,7 +666,7 @@ configuration DomainController2k8r2
             #Credential = $DomainCreds
             #PsDscRunAsCredential = $DomainCreds
 
-           # DependsOn  = '[xADCSWebEnrollment]CertSrv'
+            # DependsOn  = '[xADCSWebEnrollment]CertSrv'
         }
 		
 
