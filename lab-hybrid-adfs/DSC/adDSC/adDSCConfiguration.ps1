@@ -33,6 +33,11 @@ configuration DomainController
     $CARootName = "$($shortDomain.ToLower())-$($ComputerName.ToUpper())-CA"
     $CAServerFQDN = "$ComputerName.$DomainName"
 
+    # xADOrganizationalUnit Configuration
+    $OUName = "OrgUsers"
+    $OUPath = "DC=teppeiy,DC=local"
+    $ProtectedFromAccidentalDeletion = $true
+
     # NOTE: see adfsDeploy.json variable block to see how the internal IP is constructed 
     #       (punting and reproducing logic here)
     $adfsNetworkArr = $ADFSIPAddress.Split('.')
@@ -43,7 +48,7 @@ configuration DomainController
     $ClearPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
     $ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
 
-    Import-DscResource -ModuleName xComputerManagement, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
+    Import-DscResource -ModuleName xComputerManagement, xActiveDirectory, xNetworking, xSmbShare, xAdcsDeployment, xCertificate, PSDesiredStateConfiguration
 
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($Admincreds.UserName)", $Admincreds.Password)
     
@@ -52,6 +57,22 @@ configuration DomainController
         LocalConfigurationManager {
             DebugMode          = 'All'
             RebootNodeIfNeeded = $true
+        }
+
+        WindowsFeature ADDSInstall
+        {
+            Ensure = "Present"
+            Name = "AD-Domain-Services"
+        }
+        
+        xADOrganizationalUnit CreateOU
+        {
+           Name = $OUName
+           Path = $OUPath
+           ProtectedFromAccidentalDeletion = $ProtectedFromAccidentalDeletion
+           Description = 'User OU'
+           Ensure = 'Present'
+           DependsOn  = '[WindowsFeature]ADDSInstall' 
         }
 
         WindowsFeature ADCS-Cert-Authority {
@@ -216,6 +237,7 @@ configuration DomainController
             TestScript = { 
                 return Test-Path "$env:TEMP\AzureADConnect.msi" 
             }
+            msiexec.exe /x ProductCode
         }
 
 		<#
