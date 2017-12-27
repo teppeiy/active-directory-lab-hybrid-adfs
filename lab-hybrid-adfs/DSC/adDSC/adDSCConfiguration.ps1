@@ -64,6 +64,7 @@ configuration DomainController
             Name   = "AD-Domain-Services"
         }
         
+        <#
         xADOrganizationalUnit CreateOU
         {
             Name                            = $OUName
@@ -73,6 +74,7 @@ configuration DomainController
             Ensure                          = 'Present'
             DependsOn                       = '[WindowsFeature]ADDSInstall' 
         }
+#>
 
         WindowsFeature ADCS-Cert-Authority {
             Ensure = 'Present'
