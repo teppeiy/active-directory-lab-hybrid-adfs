@@ -3,7 +3,7 @@ $TemplateParameterFile = "C:\Users\teppeiy\source\repos\active-directory-lab-hyb
 
 
 # Win2012 - 
-$deploymentNumber = 5
+$deploymentNumber = 4
 $ResourceGroupName = "Forest-$deploymentNumber"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location "Southeast Asia"
 New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile `
